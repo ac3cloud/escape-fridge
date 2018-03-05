@@ -1,2 +1,5 @@
-# escape_booth
+# Escape Booth
+
 AWS Summit Sydney 2018 Escape Booth
+
+h1. WE WILL BE OPEN SOURCING THIS CODE SO BE CAREFUL ABOUT YOUR COMMITS
