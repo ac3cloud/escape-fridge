@@ -14,7 +14,13 @@
   "name": "pi",
   "private": true,
   "scripts": {
+    "lint": "eslint .",
     "start": "node ./bin/www"
   },
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "devDependencies": {
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.7.0"
+  }
 }
