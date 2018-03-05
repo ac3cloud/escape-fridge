@@ -8,5 +8,6 @@ The bits that run on the raspberry pi
 Start the app
 
 ```
+yarn
 yarn run dev
 ```
