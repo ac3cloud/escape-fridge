@@ -7,15 +7,23 @@ block content
       p Please fill in your details below to make a start
 
   div(class='row')
-    form
+    form(action='/', method='POST')
       div(class='form-group')
         label(for='name') Name
-        input(type='name', class='form-control', id='name' placeholder='John Doe' required='true')
+        input(type='name', class={'form-control': true, 'is-invalid': errors && errors.name}, name='name' id='name' placeholder='John Doe' required='true', value=params.name)
+        if errors && errors.name
+          div(class='invalid-feedback')= errors.name.msg
+
       div(class='form-group')
         label(for='email') Email address
-        input(type='email', class='form-control', id='email' placeholder='john@example.com' required='true')
-        small(id='emailHelp', class='form-text text-muted') We'll never share your email with anyone else.
+        input(type='email', class={'form-control': true, 'is-invalid': errors && errors.email}, name='email' id='email' placeholder='john@example.com' required='true', value=params.email)
+        if errors && errors.email
+          div(class='invalid-feedback')= errors.email.msg
+
       div(class='form-group')
         label(for='company') Company
-        input(type='company', class='form-control', id='company' placeholder='Bulletproof')
+        input(type='company', class={'form-control': true, 'is-invalid': errors && errors.company}, name='company' id='company' placeholder='Bulletproof', value=params.company)
+        if errors && errors.company
+          div(class='invalid-feedback')= errors.company.msg
+
       button(type='submit', class='btn btn-primary') Submit
