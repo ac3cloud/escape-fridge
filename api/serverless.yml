@@ -1,0 +1,50 @@
+service: escape-booth
+
+plugins:
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: production
+  region: ap-southeast-2
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  region: ${opt:region, self:provider.region}
+
+iamRoleStatements:
+  - Effect: "Allow"
+    Action:
+      - "dynamodb:GetItem"
+      - "dynamodb:PutItem"
+    Resource:
+      - { "Fn::Join" : [":", ["arn:aws:dynamodb:${self:custom.region}", { "Ref" : "AWS::AccountId" }, "table/${self:service}-${self:custom.stage}-users" ] ]  }
+
+environment:
+  ENVIRONMENT: ${opt:stage, self:provider.stage}
+
+functions:
+  userCreate:
+    handler: src/user.create
+    events:
+      - http:
+          path: users/create
+          method: post
+
+# you can add CloudFormation resource templates here
+resources:
+  Resources:
+    CelebrityTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: "${self:service}-${self:custom.stage}-users"
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

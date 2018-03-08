@@ -14,7 +14,6 @@ Code is split up into a couple of directories
 * admin - contains all the scripts that setup the different scenario
   environments
 
-
 ## Scenarios
 
 * One git branch per scenario
