@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
@@ -8,6 +9,30 @@ const reload = require('reload');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+
+const { NODE_ENV } = process.env;
+if (!NODE_ENV) {
+  throw new Error('The NODE_ENV environment variable is required but was not specified.');
+}
+
+// Support .env.X files
+const dotenvFiles = [
+  `.env.${NODE_ENV}.local`,
+  `.env.${NODE_ENV}`,
+  // Don't include `.env.local` for `test` environment
+  // since normally you expect tests to produce the same
+  // results for everyone
+  NODE_ENV !== 'test' && '.local',
+  '.env',
+].filter(Boolean);
+
+dotenvFiles.forEach((dotenvFile) => {
+  if (fs.existsSync(dotenvFile)) {
+    require('dotenv').config({ // eslint-disable-line global-require
+      path: dotenvFile,
+    });
+  }
+});
 
 const app = express();
 
