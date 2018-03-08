@@ -1,24 +1,19 @@
-// const request = require('superagent');
+const request = require('superagent');
 
 exports.createUser = (params) => {
-  // TODO validate params and return error
-
-  // request.post('/user')
-  //   .set('Content-Type', 'application/json')
-  //   .send('{"name":"tj","pet":"tobi"}')
-  //   .then(callback)
   console.error('CREATING USER');
 
-  return new Promise((resolve) => {
-    const user = {
-      id: 0,
-      email: params.email,
-      name: params.name,
-      company: params.company,
-    };
+  const user = {
+    email: params.email,
+    name: params.name,
+    company: params.company,
+  };
 
-    resolve(user);
-  });
+  return request.post(`${process.env.API_URL}/user`)
+    .set('Content-Type', 'application/json')
+    .send(user)
+    .then(result => console.error(result))
+    .catch(error => console.error(`ERROR ${error}`));
 };
 
 exports.findUser = (userName) => {

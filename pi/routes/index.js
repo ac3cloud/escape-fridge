@@ -7,7 +7,7 @@ const api = require('../api/user');
 const router = express.Router();
 
 router.get('/', (req, res /* , next */) => {
-  res.render('index');
+  res.render('index', { params: {} });
 });
 
 const validations = [
