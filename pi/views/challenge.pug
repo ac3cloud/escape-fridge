@@ -23,8 +23,6 @@ block scripts
     const start = #{leaderboard.start};
     const elapsed = Math.round((Date.now() - start) / 1000);
     const max = 100;
-    console.error('Elapsed: ' + elapsed);
-    console.error('Max: ' + max);
 
     const params = {
       precision: 'seconds',
@@ -40,10 +38,14 @@ block scripts
     timer.start(params);
 
     const updateHTML = () => {
-      const now = timer.getTotalTimeValues().minutes * 60 + timer.getTimeValues().seconds;
-      const percentage = now > max ? 100 : Math.round(now / max * 100);
+      const values = timer.getTotalTimeValues();
+      const seconds = values.minutes * 60 + values.seconds;
+      const now = seconds > max ? max : seconds;
+      const string = seconds > max ? `${Math.round(max/60)}:${Math.round(max % 60)}` : values.toString();
 
-      $('#timer .values').html(timer.getTimeValues().toString());
+      const percentage = Math.round(now / max * 100);
+
+      $('#timer .values').html(string);
       $('#timer .progress-bar').css('width', percentage + '%');
       if (percentage > 50) {
         $('#timer .progress-bar').addClass('bg-warning');
@@ -54,6 +56,8 @@ block scripts
         $('#timer .progress-bar').removeClass('bg-warning');
       }
     }
+
+    updateHTML();
 
     timer.addEventListener('secondsUpdated', (event) => {
       updateHTML();
