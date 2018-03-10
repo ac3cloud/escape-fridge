@@ -16,6 +16,7 @@ provider:
         - "dynamodb:GetItem"
         - "dynamodb:PutItem"
         - "dynamodb:UpdateItem"
+        - "dynamodb:Scan"
       Resource:
         - { "Fn::Join" : [":", ["arn:aws:dynamodb:${self:custom.region}", { "Ref" : "AWS::AccountId" }, "table/${self:service}-${self:custom.stage}-users" ] ]  }
         - { "Fn::Join" : [":", ["arn:aws:dynamodb:${self:custom.region}", { "Ref" : "AWS::AccountId" }, "table/${self:service}-${self:custom.stage}-leaderboard" ] ]  }
@@ -43,8 +44,12 @@ functions:
       - http:
           path: leaderboard
           method: put
-
-
+  leaderboardGet:
+    handler: src/leaderboard.get
+    events:
+      - http:
+          path: leaderboard
+          method: get
 
 # you can add CloudFormation resource templates here
 resources:

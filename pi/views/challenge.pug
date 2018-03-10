@@ -2,9 +2,63 @@ extends layout
 
 block content
   div(class='row')
+    div(id='timer')
+      div(class='values')
+      div(class='progress')
+        div(class='progress-bar bg-success', role='progressbar', style='width: 0%')
+
+  div(class='row')
     span
       p Ready Set Go
+
 
   div(class='row')
     span
       button(class='btn btn-success') Unlock
+
+block scripts
+  script(src='/javascripts/easytimer.min.js')
+
+  script.
+    const start = #{leaderboard.start};
+    const elapsed = Math.round((Date.now() - start) / 1000);
+    const max = 100;
+    console.error('Elapsed: ' + elapsed);
+    console.error('Max: ' + max);
+
+    const params = {
+      precision: 'seconds',
+      startValues: {
+        seconds: elapsed,
+      },
+      target: {
+        seconds: max,
+      },
+    };
+
+    const timer = new Timer();
+    timer.start(params);
+
+    const updateHTML = () => {
+      const now = timer.getTotalTimeValues().minutes * 60 + timer.getTimeValues().seconds;
+      const percentage = now > max ? 100 : Math.round(now / max * 100);
+
+      $('#timer .values').html(timer.getTimeValues().toString());
+      $('#timer .progress-bar').css('width', percentage + '%');
+      if (percentage > 50) {
+        $('#timer .progress-bar').addClass('bg-warning');
+        $('#timer .progress-bar').removeClass('bg-success');
+      }
+      if (percentage > 75) {
+        $('#timer .progress-bar').addClass('bg-danger');
+        $('#timer .progress-bar').removeClass('bg-warning');
+      }
+    }
+
+    timer.addEventListener('secondsUpdated', (event) => {
+      updateHTML();
+    });
+
+    timer.addEventListener('targetAchieved', (event) => {
+      // window.location.href = '/challenge/timeup';
+    });

@@ -1,8 +1,8 @@
 const DynamoDB = require('aws-sdk/clients/dynamodb');
 
-module.exports.create = (event, context, callback) => {
-  const docClient = new DynamoDB.DocumentClient();
+const docClient = new DynamoDB.DocumentClient();
 
+module.exports.create = (event, context, callback) => {
   const { email, challengeId } = JSON.parse(event.body);
   const now = Date.now();
 
@@ -42,8 +42,6 @@ module.exports.create = (event, context, callback) => {
 };
 
 module.exports.update = (event, context, callback) => {
-  const docClient = new DynamoDB.DocumentClient();
-
   const { email } = JSON.parse(event.body);
   const now = Date.now();
 
@@ -82,5 +80,30 @@ module.exports.update = (event, context, callback) => {
       }
 
       return callback(e);
+    });
+};
+
+module.exports.get = (event, context, callback) => {
+  const { email } = event.queryStringParameters;
+
+  const params = {
+    TableName: `escape-booth-${process.env.ENVIRONMENT}-leaderboard`,
+  };
+
+  if (email) {
+    params.FilterExpression = 'email = :email';
+    params.ExpressionAttributeValues = { ':email': email };
+  }
+
+  docClient.scan(params).promise()
+    .then((result) => {
+      console.error(result);
+      const items = email ? result.Items[0] : result.Itemss;
+      const response = {
+        statusCode: 200,
+        body: JSON.stringify(items),
+      };
+
+      callback(null, response);
     });
 };

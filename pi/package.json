@@ -5,6 +5,7 @@
     "cookie-parser": "~1.4.3",
     "debug": "~3.1.0",
     "dotenv": "^5.0.1",
+    "easytimer": "^1.1.1",
     "express": "~4.16.2",
     "express-validator": "^5.0.3",
     "morgan": "~1.9.0",

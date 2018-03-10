@@ -41,3 +41,16 @@ exports.stopUser = (params) => {
     .send(user)
     .then(res => res.body);
 };
+
+exports.getLeaderboardByEmail = (email) => {
+  console.error('GET LEADERBOARD');
+
+  const user = {
+    email,
+  };
+
+  return request.get(`${process.env.API_URL}/leaderboard`)
+    .set('Content-Type', 'application/json')
+    .query(user)
+    .then(res => res.body);
+};
