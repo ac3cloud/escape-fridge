@@ -24,6 +24,8 @@ provider:
 custom:
   stage: ${opt:stage, self:provider.stage}
   region: ${opt:region, self:provider.region}
+  iotButtonDSN: 'G030JF059367J79T'
+  iotCertificateArn: 'arn:aws:iot:ap-southeast-2:119243932312:cert/f2986a97ca9a89a97a277433b61bd8bfd5e00a13d3463362d98e021a1f37715f'
 
 functions:
   userCreate:
@@ -51,7 +53,12 @@ functions:
           path: leaderboard
           method: get
 
-# you can add CloudFormation resource templates here
+  buttonClick:
+    handler: src/button.click
+    events:
+      - iot:
+          sql: "SELECT * FROM 'iotbutton/${self:custom.iotButtonDSN}'"
+
 resources:
   Resources:
     UsersTable:
@@ -80,3 +87,30 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+    IoTThing:
+      Type: AWS::IoT::Thing
+      Properties:
+        ThingName:
+          Fn::Join: [ "", [ "iotbutton_", "${self:custom.iotButtonDSN}" ] ]
+    IoTPolicy:
+      Type: AWS::IoT::Policy
+      Properties:
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Action: "iot:Publish"
+              Effect: "Allow"
+              Resource:
+                Fn::Join: [ "", [ "arn:aws:iot:", { "Ref": "AWS::Region" }, ":", { "Ref": "AWS::AccountId" }, ":topic/iotbutton/", "${self:custom.iotButtonDSN}" ] ]
+    IoTPolicyPrincipalAttachment:
+      Type: AWS::IoT::PolicyPrincipalAttachment
+      Properties:
+        PolicyName:
+          Ref: "IoTPolicy"
+        Principal: "${self:custom.iotCertificateArn}"
+    IoTThingPrincipalAttachment:
+      Type: AWS::IoT::ThingPrincipalAttachment
+      Properties:
+        Principal: "${self:custom.iotCertificateArn}"
+        ThingName:
+          Ref: "IoTThing"

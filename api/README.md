@@ -16,3 +16,7 @@ yarn
 sls deploy -s staging
 sls deploy -s production
 ```
+
+# IoT Button Setup
+
+bin/create-certs
