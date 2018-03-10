@@ -7,7 +7,7 @@ block content
       p Please fill in your details below to make a start
 
   div(class='row')
-    form(action='/', method='POST')
+    form(action='/users', method='POST')
       div(class='form-group')
         label(for='name') Name
         input(type='name', class={'form-control': true, 'is-invalid': errors && errors.name}, name='name' id='name' placeholder='John Doe' required='true', value=params.name)

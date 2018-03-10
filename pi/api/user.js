@@ -12,8 +12,7 @@ exports.createUser = (params) => {
   return request.post(`${process.env.API_URL}/user`)
     .set('Content-Type', 'application/json')
     .send(user)
-    .then(result => console.error(result))
-    .catch(error => console.error(`ERROR ${error}`));
+    .then(res => res.body);
 };
 
 exports.findUser = (userName) => {

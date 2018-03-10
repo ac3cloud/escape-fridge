@@ -1,6 +1,6 @@
 const DynamoDB = require('aws-sdk/clients/dynamodb');
 
-module.exports.hello = (event, context, callback) => {
+module.exports.create = (event, context, callback) => {
   const docClient = new DynamoDB.DocumentClient();
 
   const { email, name, company } = JSON.parse(event.body);
@@ -12,7 +12,7 @@ module.exports.hello = (event, context, callback) => {
   };
 
   const params = {
-    TableName: `escape-booth-${process.env.ENVIRONMENT}-celebrities`,
+    TableName: `escape-booth-${process.env.ENVIRONMENT}-users`,
     Item: item,
     ConditionExpression: 'attribute_not_exists(email)',
   };
@@ -26,5 +26,16 @@ module.exports.hello = (event, context, callback) => {
 
       callback(null, response);
     })
-    .catch(e => callback(e));
+    .catch((e) => {
+      if (e.code === 'ConditionalCheckFailedException') {
+        const response = {
+          statusCode: 200,
+          body: JSON.stringify({ error: { code: 'user', msg: 'Email already exists' } }),
+        };
+
+        return callback(null, response);
+      }
+
+      return callback(e);
+    });
 };
