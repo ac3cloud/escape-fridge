@@ -9,6 +9,7 @@ const reload = require('reload');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+const challenge = require('./routes/challenge');
 
 const { NODE_ENV } = process.env;
 if (!NODE_ENV) {
@@ -49,6 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/challenge', challenge);
 
 reload(app);
 

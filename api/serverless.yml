@@ -15,8 +15,10 @@ provider:
       Action:
         - "dynamodb:GetItem"
         - "dynamodb:PutItem"
+        - "dynamodb:UpdateItem"
       Resource:
         - { "Fn::Join" : [":", ["arn:aws:dynamodb:${self:custom.region}", { "Ref" : "AWS::AccountId" }, "table/${self:service}-${self:custom.stage}-users" ] ]  }
+        - { "Fn::Join" : [":", ["arn:aws:dynamodb:${self:custom.region}", { "Ref" : "AWS::AccountId" }, "table/${self:service}-${self:custom.stage}-leaderboard" ] ]  }
 
 custom:
   stage: ${opt:stage, self:provider.stage}
@@ -29,14 +31,41 @@ functions:
       - http:
           path: user
           method: post
+  leaderboardCreate:
+    handler: src/leaderboard.create
+    events:
+      - http:
+          path: leaderboard
+          method: post
+  leaderboardUpdate:
+    handler: src/leaderboard.update
+    events:
+      - http:
+          path: leaderboard
+          method: put
+
+
 
 # you can add CloudFormation resource templates here
 resources:
   Resources:
-    CelebrityTable:
+    UsersTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: "${self:service}-${self:custom.stage}-users"
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    Leaderboard:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: "${self:service}-${self:custom.stage}-leaderboard"
         AttributeDefinitions:
           - AttributeName: email
             AttributeType: S

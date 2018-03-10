@@ -1,0 +1,86 @@
+const DynamoDB = require('aws-sdk/clients/dynamodb');
+
+module.exports.create = (event, context, callback) => {
+  const docClient = new DynamoDB.DocumentClient();
+
+  const { email, challengeId } = JSON.parse(event.body);
+  const now = Date.now();
+
+  const item = {
+    email,
+    challengeId,
+    start: now,
+  };
+
+  const params = {
+    TableName: `escape-booth-${process.env.ENVIRONMENT}-leaderboard`,
+    Item: item,
+    ConditionExpression: 'attribute_not_exists(email)',
+  };
+
+  docClient.put(params).promise()
+    .then(() => {
+      const response = {
+        statusCode: 200,
+        body: JSON.stringify({}),
+      };
+
+      callback(null, response);
+    })
+    .catch((e) => {
+      if (e.code === 'ConditionalCheckFailedException') {
+        const response = {
+          statusCode: 200,
+          body: JSON.stringify({ error: { code: 'user', msg: 'Email already exists in leaderboard' } }),
+        };
+
+        return callback(null, response);
+      }
+
+      return callback(e);
+    });
+};
+
+module.exports.update = (event, context, callback) => {
+  const docClient = new DynamoDB.DocumentClient();
+
+  const { email } = JSON.parse(event.body);
+  const now = Date.now();
+
+  const item = {
+    end: now,
+  };
+
+  const params = {
+    TableName: `escape-booth-${process.env.ENVIRONMENT}-leaderboard`,
+    Key: { HashKey: email },
+    Item: item,
+    ConditionExpression: 'attribute_not_exists(end)',
+    ExpressionAttributeValues: {
+      ':end': now,
+    },
+    UpdateExpression: 'set #end = :end',
+  };
+
+  docClient.put(params).promise()
+    .then(() => {
+      const response = {
+        statusCode: 200,
+        body: JSON.stringify({}),
+      };
+
+      callback(null, response);
+    })
+    .catch((e) => {
+      if (e.code === 'ConditionalCheckFailedException') {
+        const response = {
+          statusCode: 200,
+          body: JSON.stringify({ error: { code: 'user', msg: 'Email already exists in leaderboard' } }),
+        };
+
+        return callback(null, response);
+      }
+
+      return callback(e);
+    });
+};

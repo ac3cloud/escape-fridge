@@ -3,4 +3,21 @@ extends layout
 block content
   div(class='row')
     span
-      p Ready Set Go!
+      p Welcome to the Bulletproof Escape Booth Challenge
+      p Your goal is to solve the problem with the application to unlock your prize
+      p The quickest contestant over the day will win a major prize
+
+  div(class='row')
+    span
+      p Rules
+      ul
+        li You have 10 minutes to complete the challenge
+        li The code is available in the other browser tabs
+        li Other stuff
+
+  div(class='row')
+    span
+      p Click the button to start your timer
+      form(action='/users/start', method='POST')
+        button(class='btn btn-success') Start
+
