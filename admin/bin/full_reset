@@ -1,0 +1,34 @@
+#!/bin/sh
+
+set -e
+
+RED='\033[0;91m'
+OFF='\033[0m'
+echo ${RED}WARNING WARNING WARNING $OFF
+echo This blows away everything including the leaderboard
+echo you should only use this on the morning of the summit
+echo ${RED}WARNING WARNING WARNING $OFF
+echo
+echo -n 'To continue type "REALLY KILL IT": '
+read n
+
+if [ "$n" != "REALLY KILL IT" ]; then
+  echo Not resetting
+  exit 1
+fi
+
+ENV=production
+
+empty_table() {
+  TABLE_NAME=$1
+  KEY_NAME=$2
+
+  KEYS=$(aws dynamodb scan --table-name $TABLE_NAME | jq ".Items[].$KEY_NAME.S")
+
+  for key in $KEYS; do
+    echo "Deleting $key from $TABLE_NAME..."
+    aws dynamodb delete-item --table-name $TABLE_NAME --key "{ \"$KEY_NAME\": { \"S\": $key }}"
+  done
+}
+
+empty_table escape-booth-${ENV}-users email
