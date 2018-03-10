@@ -14,10 +14,10 @@
     "eslint-loader": "^2.0.0",
     "eslint-plugin-import": "^2.9.0",
     "serverless": "^1.26.1",
-    "serverless-webpack": "^5.0.0-rc.4",
+    "serverless-webpack": "^5.0.0",
     "webpack": "^4.1.1"
   },
   "dependencies": {
-    "aws-sdk": "^2.206.0"
+    "aws-sdk": "^2.207.0"
   }
 }

@@ -4,6 +4,11 @@ AWS Summit Sydney 2018 Escape Booth
 
 # WE WILL BE OPEN SOURCING THIS CODE SO BE CAREFUL ABOUT YOUR COMMITS
 
+## Instructions
+
+* The app has no error checking to make it more of a challenge
+* There are glaring security holes in the app, please ignore them, this is not
+  meant for production!
 
 ## Structure
 
