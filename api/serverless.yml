@@ -8,6 +8,7 @@ provider:
   runtime: nodejs6.10
   stage: production
   region: ap-southeast-2
+  variableSyntax: "\\${((?!AWS)[ ~:a-zA-Z0-9._'\",\\-\\/\\(\\)]+?)}"
   environment:
     ENVIRONMENT: ${opt:stage, self:provider.stage}
   iamRoleStatements:
@@ -18,8 +19,8 @@ provider:
         - "dynamodb:UpdateItem"
         - "dynamodb:Scan"
       Resource:
-        - { "Fn::Join" : [":", ["arn:aws:dynamodb:${self:custom.region}", { "Ref" : "AWS::AccountId" }, "table/${self:service}-${self:custom.stage}-users" ] ]  }
-        - { "Fn::Join" : [":", ["arn:aws:dynamodb:${self:custom.region}", { "Ref" : "AWS::AccountId" }, "table/${self:service}-${self:custom.stage}-leaderboard" ] ]  }
+        - { "Fn::Sub" : "arn:aws:dynamodb:${self:custom.region}:${AWS::AccountId}:table/${self:service}-${self:custom.stage}-users" }
+        - { "Fn::Sub" : "arn:aws:dynamodb:${self:custom.region}:${AWS::AccountId}:table/${self:service}-${self:custom.stage}-leaderboard" }
 
 custom:
   stage: ${opt:stage, self:provider.stage}
@@ -90,18 +91,18 @@ resources:
     IoTThing:
       Type: AWS::IoT::Thing
       Properties:
-        ThingName:
-          Fn::Join: [ "", [ "iotbutton_", "${self:custom.iotButtonDSN}" ] ]
+        ThingName: "iotbutton_${self:custom.iotButtonDSN}"
     IoTPolicy:
       Type: AWS::IoT::Policy
       Properties:
+        PolicyName: "escape-booth-button-${self:custom.stage}"
         PolicyDocument:
           Version: "2012-10-17"
           Statement:
             - Action: "iot:Publish"
               Effect: "Allow"
               Resource:
-                Fn::Join: [ "", [ "arn:aws:iot:", { "Ref": "AWS::Region" }, ":", { "Ref": "AWS::AccountId" }, ":topic/iotbutton/", "${self:custom.iotButtonDSN}" ] ]
+                Fn::Sub: "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/iotbutton/${self:custom.iotButtonDSN}"
     IoTPolicyPrincipalAttachment:
       Type: AWS::IoT::PolicyPrincipalAttachment
       Properties:
