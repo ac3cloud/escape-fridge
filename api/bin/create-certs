@@ -2,8 +2,6 @@
 
 set -e
 
-curl -v https://www.symantec.com/content/en/us/enterprise/verisign/roots/VeriSign-Class%203-Public-Primary-Certification-Authority-G5.pem -o certs/symantec.pem > /dev/null
-
 certificateId=$(aws iot create-keys-and-certificate \
   --set-as-active \
   --certificate-pem-outfile certs/cert.pem \

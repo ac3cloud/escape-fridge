@@ -1,0 +1,94 @@
+#!/bin/sh
+
+set -e
+
+. .env.production.local
+
+region=$(aws configure get region)
+account=$(aws sts get-caller-identity \
+  --output json \
+  | jq --raw-output .Account
+)
+thingName=$THING_NAME
+
+echo -n 'Creating thing...'
+
+thingArn=$(aws iot create-thing \
+  --thing-name $thingName \
+  --output json \
+  | jq --raw-output .thingArn
+)
+
+echo 'Done'
+
+echo -n 'Creating certs...'
+
+mkdir -p certs
+
+curl --silent https://www.symantec.com/content/en/us/enterprise/verisign/roots/VeriSign-Class%203-Public-Primary-Certification-Authority-G5.pem -o certs/symantec.pem
+
+certificateArn=$(aws iot create-keys-and-certificate \
+  --set-as-active \
+  --certificate-pem-outfile certs/cert.pem \
+  --public-key-outfile certs/public.pem \
+  --private-key-outfile certs/private.pem \
+  --output json \
+  | jq --raw-output .certificateArn
+)
+
+echo 'Done'
+
+
+echo -n 'Create policy...'
+
+policy=$(cat <<END
+{
+ "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "iot:Connect",
+      "Resource": "arn:aws:iot:${region}:${account}:client/${thingName}"
+    }
+  ]
+}
+END
+)
+
+policyArn=$(aws iot create-policy \
+  --policy-name $thingName \
+  --policy-document "$policy" \
+  --output json \
+  | jq --raw-output .policyArn
+)
+
+echo 'Done'
+
+
+echo -n 'Attach certificate to thing...'
+aws iot attach-thing-principal \
+  --thing-name $thingName \
+  --principal $certificateArn \
+  --output json
+echo 'Done'
+
+echo -n 'Attach certificate to thing...'
+aws iot attach-thing-principal \
+  --thing-name $thingName \
+  --principal $certificateArn \
+  --output json
+echo 'Done'
+
+echo -n 'Attach local policy to certificate...'
+aws iot attach-principal-policy \
+  --policy-name $thingName \
+  --principal $certificateArn \
+  --output json
+echo 'Done'
+
+echo -n 'Attach global policy to certificate...'
+aws iot attach-principal-policy \
+  --policy-name escape-booth-pi-production \
+  --principal $certificateArn \
+  --output json
+echo 'Done'

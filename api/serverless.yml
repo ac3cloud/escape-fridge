@@ -8,7 +8,7 @@ provider:
   runtime: nodejs6.10
   stage: production
   region: ap-southeast-2
-  variableSyntax: "\\${((?!AWS)[ ~:a-zA-Z0-9._'\",\\-\\/\\(\\)]+?)}"
+  variableSyntax: "\\${((?!(AWS|iot))[ ~:a-zA-Z0-9._'\",\\-\\/\\(\\)]+?)}"
   environment:
     ENVIRONMENT: ${opt:stage, self:provider.stage}
   iamRoleStatements:
@@ -103,6 +103,30 @@ resources:
               Effect: "Allow"
               Resource:
                 Fn::Sub: "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/iotbutton/${self:custom.iotButtonDSN}"
+    IoTPolicyPi:
+      Type: AWS::IoT::Policy
+      Properties:
+        PolicyName: "escape-booth-pi-${self:custom.stage}"
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Action:
+                "iot:Subscribe"
+              Effect: "Allow"
+              Resource:
+                - Fn::Sub: "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topicfilter/pi"
+                - Fn::Sub: "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topicfilter/$aws/things/${!iot:Connection.Thing.ThingName}/shadow/*"
+            - Action:
+                - "iot:Receive"
+                - "iot:Publish"
+              Effect: "Allow"
+              Resource:
+                - Fn::Sub: "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/$aws/things/${!iot:Connection.Thing.ThingName}/shadow/*"
+            - Action:
+                - "iot:Recieve"
+              Effect: "Allow"
+              Resource:
+                - Fn::Sub: "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/pi"
     IoTPolicyPrincipalAttachment:
       Type: AWS::IoT::PolicyPrincipalAttachment
       Properties:

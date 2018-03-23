@@ -1,5 +1,9 @@
 node_modules
 
+certs/private.pem
+certs/public.pem
+certs/cert.pem
+
 # misc
 .env.local
 .env.development.local
