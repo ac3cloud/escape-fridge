@@ -11,6 +11,7 @@ provider:
   variableSyntax: "\\${((?!(AWS|iot))[ ~:a-zA-Z0-9._'\",\\-\\/\\(\\)]+?)}"
   environment:
     ENVIRONMENT: ${opt:stage, self:provider.stage}
+    IOT_ENDPOINT: "a3w4p9i1vbktha.iot.ap-southeast-2.amazonaws.com"
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -21,6 +22,11 @@ provider:
       Resource:
         - { "Fn::Sub" : "arn:aws:dynamodb:${self:custom.region}:${AWS::AccountId}:table/${self:service}-${self:custom.stage}-users" }
         - { "Fn::Sub" : "arn:aws:dynamodb:${self:custom.region}:${AWS::AccountId}:table/${self:service}-${self:custom.stage}-leaderboard" }
+    - Effect: "Allow"
+      Action:
+        - "iot:Publish"
+      Resource:
+        - Fn::Sub: "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/pi"
 
 custom:
   stage: ${opt:stage, self:provider.stage}
@@ -123,7 +129,7 @@ resources:
               Resource:
                 - Fn::Sub: "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/$aws/things/${!iot:Connection.Thing.ThingName}/shadow/*"
             - Action:
-                - "iot:Recieve"
+                - "iot:Receive"
               Effect: "Allow"
               Resource:
                 - Fn::Sub: "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/pi"

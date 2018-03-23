@@ -18,6 +18,7 @@ class IoT {
 
     thingShadow.on('connect', this.handleConnect.bind(this));
     thingShadow.on('status', this.handleStatus.bind(this));
+    thingShadow.on('message', this.handleMessage.bind(this));
     thingShadow.on('delta', this.handleDelta.bind(this));
     thingShadow.on('error', this.handleError.bind(this));
     thingShadow.on('timeout', this.handleTimeout.bind(this));
@@ -58,6 +59,11 @@ class IoT {
     });
 
     this.thingShadow.subscribe('pi');
+  }
+
+  handleMessage(topic, payload) {
+    console.error('message', topic, payload.toString());
+    console.error(this.state);
   }
 
   handleStatus(thingName, stat, clientToken, stateObject) {

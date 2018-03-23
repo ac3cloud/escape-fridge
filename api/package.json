@@ -5,6 +5,7 @@
   "license": "ISC",
   "private": true,
   "scripts": {
+    "simulate-click": "sls -s production invoke -f buttonClick -d \"{ serialNumber: 'G030JF059367J79T', batteryVoltage: '1780mV', clickType: 'SINGLE' }\"",
     "lint": "eslint ."
   },
   "version": "1.0.0",
