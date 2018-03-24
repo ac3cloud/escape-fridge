@@ -6,7 +6,7 @@ ws.onmessage = (event) => {
 
   switch (payload.cmd) {
     case 'take-photo':
-      takepicture(); // eslint-disable-line no-undef
+      mySmileIsMyPassortVerifyMe(); // eslint-disable-line no-undef
       break;
     default:
       console.error('Unknown Command');
