@@ -4,7 +4,7 @@ const awsIot = require('aws-iot-device-sdk');
 const certPath = path.join(__dirname, '..', 'certs');
 
 class IoT {
-  constructor() {
+  constructor(wss) {
     const deviceOptions = {
       keyPath: path.join(certPath, 'private.pem'),
       certPath: path.join(certPath, 'cert.pem'),
@@ -28,6 +28,7 @@ class IoT {
     // thingShadow.on('packetreceive', this.handlePacketReceive);
 
     this.thingShadow = thingShadow;
+    this.wss = wss;
 
     this.temp_io = 'locked';
   }
@@ -90,8 +91,14 @@ class IoT {
     this.thingShadow.subscribe('pi');
   }
 
-  handleMessage(topic, payload) { // eslint-disable-line class-methods-use-this
-    console.error('message', topic, payload.toString());
+  handleMessage(topic, data) {
+    console.error('message', topic, data.toString());
+
+    const payload = JSON.parse(data.toString());
+
+    if (payload.cmd === 'take-photo') {
+      this.wss.sendMessage({ cmd: 'take-photo' });
+    }
   }
 
   handleStatus(thingName, stat, clientToken, stateObject) { // eslint-disable-line class-methods-use-this

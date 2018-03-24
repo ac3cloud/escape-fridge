@@ -2156,6 +2156,12 @@ ws@^3.2.0:
     safe-buffer "~5.1.0"
     ultron "~1.1.0"
 
+ws@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-5.1.0.tgz#ad7f95a65c625d47c24f2b8e5928018cf965e2a6"
+  dependencies:
+    async-limiter "~1.0.0"
+
 ws@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-3.0.0.tgz#98ddb00056c8390cb751e7788788497f99103b6c"
