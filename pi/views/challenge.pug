@@ -28,6 +28,14 @@ block scripts
   script(src='/javascripts/timer.js')
   script(src='/javascripts/camera.js')
   script(src='/javascripts/ws.js')
+  script(src='/javascripts/s3.js')
   script.
     const start = #{leaderboard.start};
     setupTimer(start);
+
+    const mySmileIsMyPassortVerifyMe = () => {
+      countdown()
+        .then(() => takePhoto())
+        .then(() => s3Upload());
+    };
+

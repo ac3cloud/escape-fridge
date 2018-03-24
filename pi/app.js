@@ -10,6 +10,8 @@ const reload = require('reload');
 const index = require('./routes/index');
 const users = require('./routes/users');
 const challenge = require('./routes/challenge');
+const s3 = require('./routes/s3');
+
 const IoT = require('./lib/iot').default;
 const WSS = require('./lib/wss').default;
 
@@ -55,6 +57,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/challenge', challenge);
+app.use('/s3', s3);
 
 reload(app);
 

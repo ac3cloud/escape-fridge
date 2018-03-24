@@ -166,6 +166,15 @@ resources:
             - Id: RemoveOldPhotos
               Status: Enabled
               ExpirationInDays: 1
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+               - PUT
+              AllowedOrigins:
+               - '*'
+              AllowedHeaders:
+               - '*'
+
     FaceDetectLambdaPermissionEscapeboothproductionfacesS3:
       Type: AWS::Lambda::Permission
       Properties:
