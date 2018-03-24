@@ -61,42 +61,33 @@ class IoT {
     this.thingShadow.subscribe('pi');
   }
 
-  handleMessage(topic, payload) {
+  handleMessage(topic, payload) { // eslint-disable-line class-methods-use-this
     console.error('message', topic, payload.toString());
-    console.error(this.state);
   }
 
-  handleStatus(thingName, stat, clientToken, stateObject) {
+  handleStatus(thingName, stat, clientToken, stateObject) { // eslint-disable-line class-methods-use-this
     console.error(`received ${stat} on ${thingName}: ${JSON.stringify(stateObject)}`);
-    console.error(this.state);
-  }
-
-  handleDelta(thingName, stateObject) {
-    console.error(`received delta on ${thingName}: ${JSON.stringify(stateObject)}`);
-    console.error(this.state);
   }
 
   // TODO: Should we leave this here as a debugging tool?
-  // handlePacketSend(packet) {
+  // handlePacketSend(packet) { // eslint-disable-line class-methods-use-this
   //   console.error('SEND');
   //   console.error(packet);
   // }
 
   // TODO: Should we leave this here as a debugging tool?
-  // handlePacketReceive(packet) {
+  // handlePacketReceive(packet) { // eslint-disable-line class-methods-use-this
   //   console.error('RECEIVE');
   //   console.error(packet);
   // }
 
-  handleError(error) {
+  handleError(error) { // eslint-disable-line class-methods-use-this
     console.error('ERROR');
     console.error(error);
-    console.error(this.state);
   }
 
-  handleTimeout(thingName, clientToken) {
+  handleTimeout(thingName, clientToken) { // eslint-disable-line class-methods-use-this
     console.error(`received timeout on ${thingName} with token: ${clientToken}`);
-    console.error(this.state);
   }
 }
 
