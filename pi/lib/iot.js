@@ -28,18 +28,20 @@ class IoT {
     // thingShadow.on('packetreceive', this.handlePacketReceive);
 
     this.thingShadow = thingShadow;
+
+    this.temp_io = 'locked';
   }
 
   // TODO: Load this from PI IO pins?
   get fridgeState() { // eslint-disable-line class-methods-use-this
     const state = {
-      state: 'unlocked',
+      state: this.temp_io,
     };
 
     return state;
   }
 
-  get state() { // eslint-disable-line class-methods-use-this
+  get deviceState() { // eslint-disable-line class-methods-use-this
     const state = {
       fridge: this.fridgeState,
     };
@@ -47,15 +49,42 @@ class IoT {
     return state;
   }
 
+  setFridgeState(state) {
+    // TODO change IO PINS
+    this.temp_io = state;
+
+    this.updateShadow();
+  }
+
+  handleDelta(thingName, stateObject) {
+    console.error(`received delta on ${thingName}: ${JSON.stringify(stateObject)}`);
+
+    const desiredState = stateObject.state;
+    const currentState = this.deviceState;
+
+    if (currentState.fridge.state === desiredState.fridge.state) {
+      console.error('state doesn\'t need to be changed');
+      return;
+    }
+
+    console.error('Updating State');
+    this.setFridgeState(desiredState.fridge.state);
+  }
+
+  updateShadow() {
+    const state = {
+      state: {
+        reported: this.deviceState,
+        desired: null,
+      },
+    };
+
+    this.thingShadow.update(process.env.THING_NAME, state);
+  }
+
   handleConnect() {
     this.thingShadow.register(process.env.THING_NAME, {}, () => {
-      const fridgeState = {
-        state: {
-          reported: this.state,
-        },
-      };
-
-      this.thingShadow.update(process.env.THING_NAME, fridgeState);
+      this.updateShadow();
     });
 
     this.thingShadow.subscribe('pi');
