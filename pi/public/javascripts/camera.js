@@ -10,7 +10,6 @@ let streaming = false;
 let video = null;
 let canvas = null;
 let photo = null;
-let startbutton = null;
 
 // Fill the photo with an indication that none has been
 // captured.
@@ -28,7 +27,7 @@ const clearphoto = () => {
 // format data URL. By drawing it on an offscreen canvas and then
 // drawing that to the screen, we can change its size and/or apply
 // other changes before drawing it.
-const takepicture = () => {
+const takePhoto = () => {
   const context = canvas.getContext('2d');
   if (width && height) {
     canvas.width = width;
@@ -46,7 +45,6 @@ const startup = () => {
   [video] = $('#video');
   [canvas] = $('#canvas');
   [photo] = $('#photo');
-  [startbutton] = $('#startbutton');
 
   navigator.getUserMedia(
     {
@@ -70,11 +68,6 @@ const startup = () => {
       canvas.setAttribute('height', height);
       streaming = true;
     }
-  }, false);
-
-  startbutton.addEventListener('click', (event) => {
-    takepicture();
-    event.preventDefault();
   }, false);
 
   clearphoto();
