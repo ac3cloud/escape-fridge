@@ -10,12 +10,14 @@ block content
   div(class='row')
     div(class='camera', class='d-inlne-block', style='width: 320px')
       video(id='video') Video stream not available.
-      button(id='startbutton' class='btn btn-success') Take photo
 
     canvas(id='canvas', class='d-none')
 
     div(class='output d-inline-block')
       img(id='photo' width='320px')
+
+    div(id='countdown')
+      span
 
   div(class='row')
     span
@@ -24,7 +26,17 @@ block content
 block scripts
   script(src='/javascripts/easytimer.min.js')
   script(src='/javascripts/timer.js')
+  script(src='/javascripts/camera.js')
+  script(src='/javascripts/countdown.js')
+  script(src='/javascripts/ws.js')
+  script(src='/javascripts/s3.js')
   script.
     const start = #{leaderboard.start};
     setupTimer(start);
-  script(src='/javascripts/camera.js')
+
+    const mySmileIsMyPassortVerifyMe = () => {
+      countdown()
+        .then(() => takePhoto())
+        .then(() => s3Upload());
+    };
+

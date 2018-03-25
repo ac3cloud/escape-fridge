@@ -10,7 +10,10 @@ const reload = require('reload');
 const index = require('./routes/index');
 const users = require('./routes/users');
 const challenge = require('./routes/challenge');
+const s3 = require('./routes/s3');
+
 const IoT = require('./lib/iot').default;
+const WSS = require('./lib/wss').default;
 
 const { NODE_ENV } = process.env;
 if (!NODE_ENV) {
@@ -37,7 +40,8 @@ dotenvFiles.forEach((dotenvFile) => {
 });
 
 const app = express();
-const iot = new IoT(); // eslint-disable-line no-unused-vars
+const wss = new WSS();
+const iot = new IoT(wss); // eslint-disable-line no-unused-vars
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -53,6 +57,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/challenge', challenge);
+app.use('/s3', s3);
 
 reload(app);
 

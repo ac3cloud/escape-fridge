@@ -1,35 +1,93 @@
 const IotData = require('aws-sdk/clients/iotdata');
-// const S3 = require('aws-sdk/clients/s3');
+const Rekognition = require('aws-sdk/clients/rekognition');
 
 const iot = new IotData({ endpoint: process.env.IOT_ENDPOINT });
+const rekognition = new Rekognition();
 
 const SMILE_THRESHOLD = 60;
 
-module.exports.faceDetect = (event /* , context, callback */) => {
-  console.error(event);
+const sendData = (data) => {
+  const payloadJSON = {
+    cmd: 'face-data',
+    data: data.FaceDetails[0],
+  };
+  const payload = JSON.stringify(payloadJSON);
 
-  // TODO: Run Facedetect on bucket image
-  const faceSomething = {
-    smile: 90,
+  const params = {
+    topic: 'pi',
+    payload,
   };
 
-  if (faceSomething.smile > SMILE_THRESHOLD) {
-    const state = {
-      state: {
-        desired: {
-          fridge: {
-            state: 'unlocked',
-          },
+  return iot.publish(params).promise()
+    .then(() => data);
+};
+
+const sendResult = (data) => {
+  const payloadJSON = {
+    cmd: 'result',
+    isSmiling: data,
+  };
+  const payload = JSON.stringify(payloadJSON);
+
+  const params = {
+    topic: 'pi',
+    payload,
+  };
+
+  return iot.publish(params).promise()
+    .then(() => data);
+};
+
+const detectFace = (bucket, key) => {
+  const params = {
+    Attributes: ['ALL'],
+    Image: {
+      S3Object: {
+        Bucket: bucket,
+        Name: key,
+      },
+    },
+  };
+
+  return rekognition.detectFaces(params).promise();
+};
+
+const setFridge = (fridgeState) => {
+  const state = {
+    state: {
+      desired: {
+        fridge: {
+          state: fridgeState,
         },
       },
-    };
+    },
+  };
 
-    const params = {
-      payload: JSON.stringify(state),
-      thingName: process.env.THING_NAME,
-    };
-    iot.updateThingShadow(params).promise();
+  const params = {
+    payload: JSON.stringify(state),
+    thingName: process.env.THING_NAME,
+  };
+
+  return iot.updateThingShadow(params).promise();
+};
+
+const checkThreshold = (data) => {
+  const smile = data.FaceDetails[0].Smile;
+
+  const isSmiling = smile.Value && smile.Confidence > SMILE_THRESHOLD;
+
+  if (isSmiling) {
+    setFridge('unlocked');
   }
 
-  // TODO: Return above and publish a failure to the pi
+  sendResult(isSmiling ? 'success' : 'failure');
+};
+
+module.exports.processImage = (event /* , context, callback */) => {
+  const { key } = event.Records[0].s3.object;
+  const bucket = event.Records[0].s3.bucket.name;
+
+  detectFace(bucket, key)
+    .then(data => sendData(data))
+    .then(data => checkThreshold(data));
 };
