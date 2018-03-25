@@ -12,6 +12,7 @@ provider:
   environment:
     ENVIRONMENT: ${opt:stage, self:provider.stage}
     IOT_ENDPOINT: "a3w4p9i1vbktha.iot.ap-southeast-2.amazonaws.com"
+    THING_NAME: "pi-johnf"
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -27,6 +28,21 @@ provider:
         - "iot:Publish"
       Resource:
         - Fn::Sub: "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/pi"
+    - Effect: "Allow"
+      Action:
+        - "iot:UpdateThingShadow"
+      Resource:
+        - Fn::Sub: "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:thing/pi-johnf"
+    - Effect: "Allow"
+      Action:
+        - "rekognition:DetectFaces"
+      Resource:
+        - "*"
+    - Effect: "Allow"
+      Action:
+        - "s3:GetObject"
+      Resource:
+        - "arn:aws:s3:::${self:service}-${self:custom.stage}-faces/*"
 
 custom:
   stage: ${opt:stage, self:provider.stage}
@@ -59,12 +75,17 @@ functions:
       - http:
           path: leaderboard
           method: get
-
   buttonClick:
     handler: src/button.click
     events:
       - iot:
           sql: "SELECT * FROM 'iotbutton/${self:custom.iotButtonDSN}'"
+  faceDetect:
+    handler: src/s3.processImage
+    events:
+      - s3:
+          bucket: "${self:service}-${self:custom.stage}-faces"
+          event: s3:ObjectCreated:*
 
 resources:
   Resources:
@@ -145,3 +166,34 @@ resources:
         Principal: "${self:custom.iotCertificateArn}"
         ThingName:
           Ref: "IoTThing"
+    S3BucketEscapeboothproductionfaces:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:service}-${self:custom.stage}-faces
+        AccessControl: BucketOwnerFullControl
+        LifecycleConfiguration:
+          Rules:
+            - Id: RemoveOldPhotos
+              Status: Enabled
+              ExpirationInDays: 1
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+               - PUT
+              AllowedOrigins:
+               - '*'
+              AllowedHeaders:
+               - '*'
+
+    FaceDetectLambdaPermissionEscapeboothproductionfacesS3:
+      Type: AWS::Lambda::Permission
+      Properties:
+        FunctionName:
+          Fn::GetAtt:
+            - FaceDetectLambdaFunction
+            - Arn
+        Principal: "s3.amazonaws.com"
+        Action: "lambda:InvokeFunction"
+        SourceAccount:
+          Ref: AWS::AccountId
+        SourceArn: "arn:aws:s3:::${self:service}-${self:custom.stage}-faces"
