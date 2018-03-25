@@ -82,10 +82,6 @@ functions:
           sql: "SELECT * FROM 'iotbutton/${self:custom.iotButtonDSN}'"
   faceDetect:
     handler: src/s3.processImage
-    events:
-      - s3:
-          bucket: "${self:service}-${self:custom.stage}-faces"
-          event: s3:ObjectCreated:*
 
 resources:
   Resources:
@@ -167,6 +163,8 @@ resources:
         ThingName:
           Ref: "IoTThing"
     S3BucketEscapeboothproductionfaces:
+      DependsOn:
+        - FaceDetectLambdaPermissionEscapeboothproductionfacesS3
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:service}-${self:custom.stage}-faces
@@ -184,6 +182,13 @@ resources:
                - '*'
               AllowedHeaders:
                - '*'
+        NotificationConfiguration:
+          LambdaConfigurations:
+            - Event: "s3:ObjectCreated:*"
+              Function:
+                Fn::GetAtt:
+                  - FaceDetectLambdaFunction
+                  - Arn
 
     FaceDetectLambdaPermissionEscapeboothproductionfacesS3:
       Type: AWS::Lambda::Permission
