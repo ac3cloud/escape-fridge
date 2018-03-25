@@ -2,6 +2,8 @@
 
 set -e
 
+mkdir -p certs
+
 certificateId=$(aws iot create-keys-and-certificate \
   --set-as-active \
   --certificate-pem-outfile certs/cert.pem \
@@ -10,4 +12,4 @@ certificateId=$(aws iot create-keys-and-certificate \
   --output json \
   | jq --raw-output .certificateId)
 
-echo $certificateId
+echo "${certificateId}"
