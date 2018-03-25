@@ -1,4 +1,4 @@
-service: escape-booth
+service: escape-booth-2
 
 plugins:
   - serverless-webpack
@@ -7,12 +7,13 @@ provider:
   name: aws
   runtime: nodejs6.10
   stage: production
-  region: ap-southeast-2
+  region: us-east-1
   variableSyntax: "\\${((?!(AWS|iot))[ ~:a-zA-Z0-9._'\",\\-\\/\\(\\)]+?)}"
   environment:
     ENVIRONMENT: ${opt:stage, self:provider.stage}
-    IOT_ENDPOINT: "a3w4p9i1vbktha.iot.ap-southeast-2.amazonaws.com"
-    THING_NAME: "pi-johnf"
+    IOT_ENDPOINT: "a13wgavph3aq68.iot.us-east-1.amazonaws.com"
+    THING_NAME: "pi-gregc"
+    SERVICE: ${self:service}
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -47,8 +48,8 @@ provider:
 custom:
   stage: ${opt:stage, self:provider.stage}
   region: ${opt:region, self:provider.region}
-  iotButtonDSN: 'G030JF059367J79T'
-  iotCertificateArn: 'arn:aws:iot:ap-southeast-2:119243932312:cert/f2986a97ca9a89a97a277433b61bd8bfd5e00a13d3463362d98e021a1f37715f'
+  iotButtonDSN: 'G030JF055364U26H'
+  iotCertificateArn: 'arn:aws:iot:us-east-1:025705368789:cert/3b751fd3ad865e6e33f4afe1fe12dc453147d41b56e7be8aac55a897a0264a45'
 
 functions:
   userCreate:
@@ -162,7 +163,7 @@ resources:
         Principal: "${self:custom.iotCertificateArn}"
         ThingName:
           Ref: "IoTThing"
-    S3BucketEscapeboothproductionfaces:
+    S3BucketEscapebooth2productionfaces:
       DependsOn:
         - FaceDetectLambdaPermissionEscapeboothproductionfacesS3
       Type: AWS::S3::Bucket
