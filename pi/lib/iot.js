@@ -4,7 +4,7 @@ const awsIot = require('aws-iot-device-sdk');
 const certPath = path.join(__dirname, '..', 'certs');
 
 class IoT {
-  constructor() {
+  constructor(wss) {
     const deviceOptions = {
       keyPath: path.join(certPath, 'private.pem'),
       certPath: path.join(certPath, 'cert.pem'),
@@ -18,6 +18,7 @@ class IoT {
 
     thingShadow.on('connect', this.handleConnect.bind(this));
     thingShadow.on('status', this.handleStatus.bind(this));
+    thingShadow.on('message', this.handleMessage.bind(this));
     thingShadow.on('delta', this.handleDelta.bind(this));
     thingShadow.on('error', this.handleError.bind(this));
     thingShadow.on('timeout', this.handleTimeout.bind(this));
@@ -27,18 +28,21 @@ class IoT {
     // thingShadow.on('packetreceive', this.handlePacketReceive);
 
     this.thingShadow = thingShadow;
+    this.wss = wss;
+
+    this.temp_io = 'locked';
   }
 
   // TODO: Load this from PI IO pins?
   get fridgeState() { // eslint-disable-line class-methods-use-this
     const state = {
-      state: 'unlocked',
+      state: this.temp_io,
     };
 
     return state;
   }
 
-  get state() { // eslint-disable-line class-methods-use-this
+  get deviceState() { // eslint-disable-line class-methods-use-this
     const state = {
       fridge: this.fridgeState,
     };
@@ -46,51 +50,80 @@ class IoT {
     return state;
   }
 
+  setFridgeState(state) {
+    // TODO change IO PINS
+    this.temp_io = state;
+
+    this.updateShadow();
+  }
+
+  handleDelta(thingName, stateObject) {
+    console.error(`received delta on ${thingName}: ${JSON.stringify(stateObject)}`);
+
+    const desiredState = stateObject.state;
+    const currentState = this.deviceState;
+
+    if (currentState.fridge.state === desiredState.fridge.state) {
+      console.error('state doesn\'t need to be changed');
+      return;
+    }
+
+    console.error('Updating State');
+    this.setFridgeState(desiredState.fridge.state);
+  }
+
+  updateShadow() {
+    const state = {
+      state: {
+        reported: this.deviceState,
+        desired: null,
+      },
+    };
+
+    this.thingShadow.update(process.env.THING_NAME, state);
+  }
+
   handleConnect() {
     this.thingShadow.register(process.env.THING_NAME, {}, () => {
-      const fridgeState = {
-        state: {
-          reported: this.state,
-        },
-      };
-
-      this.thingShadow.update(process.env.THING_NAME, fridgeState);
+      this.updateShadow();
     });
 
     this.thingShadow.subscribe('pi');
   }
 
-  handleStatus(thingName, stat, clientToken, stateObject) {
-    console.error(`received ${stat} on ${thingName}: ${JSON.stringify(stateObject)}`);
-    console.error(this.state);
+  handleMessage(topic, data) {
+    console.error('message', topic, data.toString());
+
+    const payload = JSON.parse(data.toString());
+
+    if (payload.cmd === 'take-photo') {
+      this.wss.sendMessage({ cmd: 'take-photo' });
+    }
   }
 
-  handleDelta(thingName, stateObject) {
-    console.error(`received delta on ${thingName}: ${JSON.stringify(stateObject)}`);
-    console.error(this.state);
+  handleStatus(thingName, stat, clientToken, stateObject) { // eslint-disable-line class-methods-use-this
+    console.error(`received ${stat} on ${thingName}: ${JSON.stringify(stateObject)}`);
   }
 
   // TODO: Should we leave this here as a debugging tool?
-  // handlePacketSend(packet) {
+  // handlePacketSend(packet) { // eslint-disable-line class-methods-use-this
   //   console.error('SEND');
   //   console.error(packet);
   // }
 
   // TODO: Should we leave this here as a debugging tool?
-  // handlePacketReceive(packet) {
+  // handlePacketReceive(packet) { // eslint-disable-line class-methods-use-this
   //   console.error('RECEIVE');
   //   console.error(packet);
   // }
 
-  handleError(error) {
+  handleError(error) { // eslint-disable-line class-methods-use-this
     console.error('ERROR');
     console.error(error);
-    console.error(this.state);
   }
 
-  handleTimeout(thingName, clientToken) {
+  handleTimeout(thingName, clientToken) { // eslint-disable-line class-methods-use-this
     console.error(`received timeout on ${thingName} with token: ${clientToken}`);
-    console.error(this.state);
   }
 }
 
