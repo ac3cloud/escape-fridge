@@ -9,7 +9,7 @@ router.post('/', (req, res /* , next */) => {
   const uuid = uuidv4();
 
   const params = {
-    Bucket: `escape-booth-${process.env.NODE_ENV}-faces`,
+    Bucket: `${process.env.SERVICE}-${process.env.NODE_ENV}-faces`,
     Key: uuid,
     ContentType: 'image/png',
     Expires: 300,
