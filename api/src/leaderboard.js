@@ -13,7 +13,7 @@ module.exports.create = (event, context, callback) => {
   };
 
   const params = {
-    TableName: `escape-booth-${process.env.ENVIRONMENT}-leaderboard`,
+    TableName: `${process.env.SERVICE}-${process.env.ENVIRONMENT}-leaderboard`,
     Item: item,
     ConditionExpression: 'attribute_not_exists(email)',
   };
@@ -50,7 +50,7 @@ module.exports.update = (event, context, callback) => {
   };
 
   const params = {
-    TableName: `escape-booth-${process.env.ENVIRONMENT}-leaderboard`,
+    TableName: `${process.env.SERVICE}-${process.env.ENVIRONMENT}-leaderboard`,
     Key: { HashKey: email },
     Item: item,
     ConditionExpression: 'attribute_not_exists(end)',
@@ -87,7 +87,7 @@ module.exports.get = (event, context, callback) => {
   const { email } = event.queryStringParameters;
 
   const params = {
-    TableName: `escape-booth-${process.env.ENVIRONMENT}-leaderboard`,
+    TableName: `${process.env.SERVICE}-${process.env.ENVIRONMENT}-leaderboard`,
   };
 
   if (email) {
