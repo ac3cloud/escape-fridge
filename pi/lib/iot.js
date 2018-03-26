@@ -31,15 +31,11 @@ class IoT {
     this.thingShadow = thingShadow;
     this.wss = wss;
 
-    if (process.env.NOPI) {
-      console.error('NOPI: initialising pin 7 low, locked');
-    } else {
-      gpio.setup(7, gpio.DIR_LOW, (err) => { // This defaults the pin to low on setup.
-        if (err) throw err;
-        this.temp_io = 'locked';
-        console.error('initialising pin 7 low, locked');
-      });
-    }
+    gpio.setup(7, gpio.DIR_LOW, (err) => { // This defaults the pin to low on setup.
+      if (err) throw err;
+      this.temp_io = 'locked';
+      console.error('initialising pin 7 low, locked');
+    });
   }
 
   // TODO: Load this from PI IO pins?
@@ -62,24 +58,20 @@ class IoT {
   setFridgeState(state) {
     this.temp_io = state;
 
-    if (process.env.NOPI) {
-      console.error('NOPI: got state: ', state);
+    if (this.temp_io === 'unlocked') { // eslint-disable-line no-lonely-if
+      gpio.write(7, true, (err) => {
+        if (err) throw err;
+        console.error('set pin 7 to high, unlocked');
+        this.updateShadow();
+      });
+    } else if (this.temp_io === 'locked') {
+      gpio.write(7, false, (err) => {
+        if (err) throw err;
+        console.error('set pin 7 to low, locked');
+        this.updateShadow();
+      });
     } else {
-      if (this.temp_io === 'unlocked') { // eslint-disable-line no-lonely-if
-        gpio.write(7, true, (err) => {
-          if (err) throw err;
-          console.error('set pin 7 to high, unlocked');
-          this.updateShadow();
-        });
-      } else if (this.temp_io === 'locked') {
-        gpio.write(7, false, (err) => {
-          if (err) throw err;
-          console.error('set pin 7 to low, locked');
-          this.updateShadow();
-        });
-      } else {
-        console.error('got unknown state: ', state);
-      }
+      console.error('got unknown state: ', state);
     }
   }
 

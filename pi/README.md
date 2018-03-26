@@ -18,10 +18,6 @@ THING_NAME=pi-johnf
 IOT_HOST=a13wgavph3aq68.iot.us-east-1.amazonaws.com
 SERVICE=escape-booth
 ```
-Add to _.env.production.local_ if you are not running on a PI:
-```
-NOPI=TRUE
-```
 
 Start the app
 
