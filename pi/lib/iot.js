@@ -115,8 +115,18 @@ class IoT {
 
     const payload = JSON.parse(data.toString());
 
-    if (payload.cmd === 'take-photo') {
-      this.wss.sendMessage({ cmd: 'take-photo' });
+    switch (payload.cmd) {
+      case 'take-photo':
+        this.wss.sendMessage({ cmd: 'take-photo' });
+        break;
+      case 'result':
+        this.wss.sendMessage({ cmd: 'result', isSmiling: payload.isSmiling });
+        break;
+      case 'face-data':
+        this.wss.sendMessage({ cmd: 'face-data', data: payload.data });
+        break;
+      default:
+        console.error(`Unknown command ${payload.cmd}`);
     }
   }
 

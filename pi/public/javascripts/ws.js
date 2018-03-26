@@ -8,8 +8,14 @@ ws.onmessage = (event) => {
     case 'take-photo':
       mySmileIsMyPassortVerifyMe(); // eslint-disable-line no-undef
       break;
+    case 'face-data':
+      showFaceData(payload.data); // eslint-disable-line no-undef
+      break;
+    case 'result':
+      showResult(payload.isSmiling); // eslint-disable-line no-undef
+      break;
     default:
-      console.error('Unknown Command');
+      console.error(`Unknown Command: ${payload.cmd}`);
   }
 };
 

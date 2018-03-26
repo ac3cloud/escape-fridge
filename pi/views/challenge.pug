@@ -2,6 +2,10 @@ extends layout
 
 block content
   div(class='row')
+    div(class='alert collapse' role='alert' id='result')
+      p &nbsp
+
+  div(class='row')
     div(id='timer')
       div(class='values')
       div(class='progress', style='width: 200px')
@@ -16,12 +20,11 @@ block content
     div(class='output d-inline-block')
       img(id='photo' width='320px')
 
-    div(id='countdown')
+    div(class='collapse' id='countdown')
       span
 
-  div(class='row')
-    span
-      button(class='btn btn-success') Unlock
+    div(id='face-data')
+      pre
 
 block scripts
   script(src='/javascripts/easytimer.min.js')
@@ -30,6 +33,7 @@ block scripts
   script(src='/javascripts/countdown.js')
   script(src='/javascripts/ws.js')
   script(src='/javascripts/s3.js')
+  script(src='/javascripts/result.js')
   script.
     const start = #{leaderboard.start};
     setupTimer(start);

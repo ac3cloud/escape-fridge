@@ -48,9 +48,9 @@ provider:
 custom:
   stage: ${opt:stage, self:provider.stage}
   region: ${opt:region, self:provider.region}
-  thing_name: pi-gregc
   iotButtonDSN: 'G030JF055364U26H'
   iotCertificateArn: 'arn:aws:iot:us-east-1:025705368789:cert/3b751fd3ad865e6e33f4afe1fe12dc453147d41b56e7be8aac55a897a0264a45'
+  thing_name: pi-gregc
 
 functions:
   userCreate:
