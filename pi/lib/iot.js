@@ -1,6 +1,6 @@
 const path = require('path');
 const awsIot = require('aws-iot-device-sdk');
-const gpio = require('rpi-gpio');
+// const gpio = require('rpi-gpio');
 
 const certPath = path.join(__dirname, '..', 'certs');
 
@@ -55,6 +55,12 @@ class IoT {
     // TODO change IO PINS
     this.temp_io = state;
 
+    /*
+    gpio.setup(7, gpio.DIR_HIGH, () => {
+      gpio.write(7, false);
+    });
+    */
+
     this.updateShadow();
   }
 
@@ -99,10 +105,6 @@ class IoT {
 
     if (payload.cmd === 'take-photo') {
       this.wss.sendMessage({ cmd: 'take-photo' });
-    }
-    if (payload.cmd === 'result' && payload.isSmilling === 'success') {
-      gpio.setup(7, gpio.DIR_HIGH).promise();
-      gpio.write(7, false).promise();
     }
   }
 
