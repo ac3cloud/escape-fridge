@@ -13,6 +13,7 @@ provider:
     ENVIRONMENT: ${opt:stage, self:provider.stage}
     IOT_ENDPOINT: "a3w4p9i1vbktha.iot.ap-southeast-2.amazonaws.com"
     THING_NAME: "pi-johnf"
+    SERVICE: ${self:service}
   iamRoleStatements:
     - Effect: "Allow"
       Action:

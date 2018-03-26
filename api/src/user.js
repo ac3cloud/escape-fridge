@@ -12,7 +12,7 @@ module.exports.create = (event, context, callback) => {
   };
 
   const params = {
-    TableName: `escape-booth-${process.env.ENVIRONMENT}-users`,
+    TableName: `${process.env.SERVICE}-${process.env.ENVIRONMENT}-users`,
     Item: item,
     ConditionExpression: 'attribute_not_exists(email)',
   };
