@@ -12,7 +12,7 @@ provider:
   environment:
     ENVIRONMENT: ${opt:stage, self:provider.stage}
     IOT_ENDPOINT: "a3w4p9i1vbktha.iot.ap-southeast-2.amazonaws.com"
-    THING_NAME: "pi-johnf"
+    THING_NAME: ${self:custom.thing_name}
     SERVICE: ${self:service}
   iamRoleStatements:
     - Effect: "Allow"
@@ -33,7 +33,7 @@ provider:
       Action:
         - "iot:UpdateThingShadow"
       Resource:
-        - Fn::Sub: "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:thing/pi-johnf"
+        - Fn::Sub: "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:thing/${self:custom.thing_name}"
     - Effect: "Allow"
       Action:
         - "rekognition:DetectFaces"
@@ -50,6 +50,7 @@ custom:
   region: ${opt:region, self:provider.region}
   iotButtonDSN: 'G030JF059367J79T'
   iotCertificateArn: 'arn:aws:iot:ap-southeast-2:119243932312:cert/f2986a97ca9a89a97a277433b61bd8bfd5e00a13d3463362d98e021a1f37715f'
+  thing_name: pi-johnf
 
 functions:
   userCreate:
