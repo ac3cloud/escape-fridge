@@ -56,24 +56,15 @@ class IoT {
   }
 
   setFridgeState(state) {
-    // TODO change IO PINS
     this.temp_io = state;
 
-    if (this.temp_io === 'unlocked') {
-      gpio.write(7, true, (err) => {
-        if (err) throw err;
-        console.error('set pin 7 to high, unlocked');
-        this.updateShadow();
-      });
-    } else if (this.temp_io === 'locked') {
-      gpio.write(7, false, (err) => {
-        if (err) throw err;
-        console.error('set pin 7 to low, locked');
-        this.updateShadow();
-      });
-    } else {
-      console.error('got unknown state: ', state);
-    }
+    const pinstate = this.temp_io === 'unlocked';
+
+    gpio.write(7, pinstate, (err) => {
+      if (err) throw err;
+      console.error('set pin 7 to', pinstate);
+      this.updateShadow();
+    });
   }
 
   handleDelta(thingName, stateObject) {
