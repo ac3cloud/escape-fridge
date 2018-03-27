@@ -1,4 +1,3 @@
-
 const ws = new WebSocket('ws://localhost:8080');
 
 ws.onmessage = (event) => {
@@ -17,6 +16,12 @@ ws.onmessage = (event) => {
     default:
       console.error(`Unknown Command: ${payload.cmd}`);
   }
+};
+
+const sendMessage = (payload) => { // eslint-disable-line no-unused-vars
+  ws.send(JSON.stringify(payload), (error) => {
+    console.error(error);
+  });
 };
 
 // TODO: Do we leave this here?

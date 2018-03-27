@@ -41,8 +41,9 @@ dotenvFiles.forEach((dotenvFile) => {
 });
 
 const app = express();
-const wss = new WSS();
+
 const gpio = new GPIO();
+const wss = new WSS(gpio);
 const iot = new IoT(wss, gpio); // eslint-disable-line no-unused-vars
 
 // view engine setup
