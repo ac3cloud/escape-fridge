@@ -5,9 +5,14 @@ class GPIO {
   constructor() {
     this.states = {
       fridge: 'locked',
+      outoftime: 'off',
     };
 
     this.data = {
+      outoftime: {
+        pin: 11,
+        direction: gpio.DIR_LOW,
+      },
       fridge: {
         pin: 7,
         direction: gpio.DIR_LOW,
@@ -28,12 +33,17 @@ class GPIO {
     this.memWrite = this.memWrite.bind(this);
   }
 
+  get outoftime() {
+    return this.states.outoftime;
+  }
   get fridge() {
     return this.states.fridge;
   }
 
   stateLookup(device, state) { // eslint-disable-line class-methods-use-this
     switch (device) {
+      case 'outoftime':
+        return state === 'on';
       case 'fridge':
         return state === 'unlocked';
       default:
