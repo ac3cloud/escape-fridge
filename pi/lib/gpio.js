@@ -14,7 +14,7 @@ class GPIO {
       },
     };
 
-    this.isPi = os.arch() === 'pi';
+    this.isPi = os.arch() === 'arm';
 
     if (!this.isPi) {
       this.mem = {};
