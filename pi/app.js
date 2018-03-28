@@ -14,6 +14,7 @@ const s3 = require('./routes/s3');
 
 const IoT = require('./lib/iot').default;
 const WSS = require('./lib/wss').default;
+const GPIO = require('./lib/gpio').default;
 
 const { NODE_ENV } = process.env;
 if (!NODE_ENV) {
@@ -41,7 +42,8 @@ dotenvFiles.forEach((dotenvFile) => {
 
 const app = express();
 const wss = new WSS();
-const iot = new IoT(wss); // eslint-disable-line no-unused-vars
+const gpio = new GPIO();
+const iot = new IoT(wss, gpio); // eslint-disable-line no-unused-vars
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
