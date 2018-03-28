@@ -32,6 +32,7 @@ class IoT {
     this.gpio = gpio;
 
     this.gpio.setup('fridge');
+    this.gpio.setup('outoftime');
   }
 
   // TODO: Load this from PI IO pins?

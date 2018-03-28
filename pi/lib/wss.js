@@ -25,8 +25,8 @@ class WSS {
 
     switch (payload.cmd) {
       case 'timer':
-        console.error(this.gpio.write);
-        // this.gpio.write('led', 'on');
+        console.error('You are out of time!');
+        this.gpio.write('outoftime', 'on');
         break;
       default:
         throw new Error('unknown command');
