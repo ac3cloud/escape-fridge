@@ -1,6 +1,6 @@
 const setupTimer = (start) => { // eslint-disable-line no-unused-vars
   const elapsed = Math.round((Date.now() - start) / 1000);
-  const max = 60;
+  const max = 600;
   const maxMin = Math.round(max / 60);
   const maxSec = Math.round(max % 60);
   const maxString = `${maxMin}:${maxSec <= 0 ? '0' : ''}${maxSec}`;
