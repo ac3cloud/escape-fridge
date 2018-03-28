@@ -1,11 +1,10 @@
 const path = require('path');
 const awsIot = require('aws-iot-device-sdk');
-const gpio = require('rpi-gpio');
 
 const certPath = path.join(__dirname, '..', 'certs');
 
 class IoT {
-  constructor(wss) {
+  constructor(wss, gpio) {
     const deviceOptions = {
       keyPath: path.join(certPath, 'private.pem'),
       certPath: path.join(certPath, 'cert.pem'),
@@ -30,18 +29,15 @@ class IoT {
 
     this.thingShadow = thingShadow;
     this.wss = wss;
+    this.gpio = gpio;
 
-    gpio.setup(7, gpio.DIR_LOW, (err) => { // This defaults the pin to low on setup.
-      if (err) throw err;
-      this.temp_io = 'locked';
-      console.error('initialising pin 7 low, locked');
-    });
+    this.gpio.setup('fridge');
   }
 
   // TODO: Load this from PI IO pins?
   get fridgeState() { // eslint-disable-line class-methods-use-this
     const state = {
-      state: this.temp_io,
+      state: this.gpio.fridge,
     };
 
     return state;
@@ -56,15 +52,8 @@ class IoT {
   }
 
   setFridgeState(state) {
-    this.temp_io = state;
-
-    const pinstate = this.temp_io === 'unlocked';
-
-    gpio.write(7, pinstate, (err) => {
-      if (err) throw err;
-      console.error('set pin 7 to', pinstate);
-      this.updateShadow();
-    });
+    this.gpio.write('fridge', state)
+      .then(() => this.updateShadow());
   }
 
   handleDelta(thingName, stateObject) {
