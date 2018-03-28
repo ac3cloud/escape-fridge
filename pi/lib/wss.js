@@ -1,23 +1,36 @@
 const WebSocket = require('ws');
 
 class WSS {
-  constructor() {
+  constructor(gpio) {
     const wss = new WebSocket.Server({ port: 8080 });
 
     wss.on('connection', this.handleConnection.bind(this));
-    wss.on('message', this.handleMessage.bind(this));
 
     this.wss = wss;
+    this.gpio = gpio;
 
     this.sendMessage = this.sendMessage.bind(this);
   }
 
-  handleConnection(/* ws */) { // eslint-disable-line class-methods-use-this
+  handleConnection(ws) { // eslint-disable-line class-methods-use-this
     console.error('WS: BROWSER CONNECTED');
+    ws.on('message', this.handleMessage.bind(this));
   }
 
-  handleMessage(message) { // eslint-disable-line class-methods-use-this
-    console.error('WS: RECV - %s', message);
+  handleMessage(data) {
+    console.error('WS: RECV');
+    console.error(data);
+
+    const payload = JSON.parse(data);
+
+    switch (payload.cmd) {
+      case 'timer':
+        console.error(this.gpio.write);
+        // this.gpio.write('led', 'on');
+        break;
+      default:
+        throw new Error('unknown command');
+    }
   }
 
   // This is a bit of a hack, we just send data to all clients since our app is more of a push and only ever has one client

@@ -45,7 +45,11 @@ const setupTimer = (start) => { // eslint-disable-line no-unused-vars
   });
 
   timer.addEventListener('targetAchieved', (/* event */) => {
-    // TODO: Put the timeout back
-    // window.location.href = '/challenge/timeup';
+    const payload = {
+      cmd: 'timer',
+      // do we need to feed email in here?
+    };
+
+    sendMessage(payload); // eslint-disable-line no-undef
   });
 };

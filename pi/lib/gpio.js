@@ -86,11 +86,17 @@ class GPIO {
   }
 
   memSetup(device) { // eslint-disable-line class-methods-use-this
-    this.mem[device] = this.states[device];
+    return new Promise((resolve /* , reject */) => {
+      this.mem[device] = this.states[device];
+      resolve();
+    });
   }
 
   memWrite(device, state) {
-    this.mem[device] = state;
+    return new Promise((resolve /* , reject */) => {
+      this.mem[device] = state;
+      resolve();
+    });
   }
 }
 
