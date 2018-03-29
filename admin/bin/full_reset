@@ -1,6 +1,14 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
+
+STAGE=$1
+if [ -z "$STAGE" ]; then
+  echo "Provide stage name as first argument"
+  exit 1
+fi
+
+. "${BASH_SOURCE%/*}/../../pi/.env.${STAGE}.local"
 
 RED='\033[0;91m'
 OFF='\033[0m'
@@ -17,7 +25,6 @@ if [ "$n" != "REALLY KILL IT" ]; then
   exit 1
 fi
 
-ENV=production
 
 empty_table() {
   TABLE_NAME=$1
@@ -31,4 +38,5 @@ empty_table() {
   done
 }
 
-empty_table escape-booth-${ENV}-users email
+empty_table ${SERVICE}-${STAGE}-users email
+empty_table ${SERVICE}-${STAGE}-leaderboard email
