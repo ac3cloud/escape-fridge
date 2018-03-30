@@ -6,5 +6,18 @@ block content
       p Bulletproof Escape Fridge Leaderboard
 
   div(class='row')
-    each entry in leaderboard
-      pre= entry
+    table(class='table table-striped')
+      thead(class='thead-dark')
+        th(scope='col') Rank
+        th(scope='col') Name
+        th(scope='col') Company
+        th(scope='col') Challenge
+        th(scope='col') Time
+      tbody
+        each entry in leaderboard
+          tr(class=entry.class)
+            th(scope='row')= entry.rank
+            td= entry.name
+            td= entry.company
+            td= entry.challengeId
+            td= entry.time

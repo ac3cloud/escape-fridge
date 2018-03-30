@@ -16,7 +16,7 @@ router.post('/', validations, (req, res /* , next */) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.error(errors.mapped());
-    res.render('index', { errors: errors.mapped() });
+    res.render('index', { params: req.body, errors: errors.mapped() });
     return;
   }
 

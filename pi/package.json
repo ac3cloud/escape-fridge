@@ -10,6 +10,7 @@
     "easytimer": "^1.1.1",
     "express": "~4.16.2",
     "express-validator": "^5.0.3",
+    "moment": "^2.21.0",
     "morgan": "~1.9.0",
     "pug": "2.0.3",
     "reload": "^2.2.2",
