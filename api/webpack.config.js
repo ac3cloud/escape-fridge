@@ -2,6 +2,8 @@ const path = require('path');
 const slsw = require('serverless-webpack');
 
 module.exports = {
+  mode: 'development',
+  devtool: 'inline-source-map',
   entry: slsw.lib.entries,
   target: 'node',
   externals: [
