@@ -19,7 +19,7 @@ block content
   div(id='output' class='row collapse')
     div(class='col')
       img(id='photo' width='320px')
-      div(id='alert' class='alert collapse mt-2' role='alert')
+      div(id='alert' class='alert collapse mt-2' role='alert' style='width: 200px')
         p
 
     div(id='face-data' class='col')
@@ -36,7 +36,7 @@ block scripts
   script(src='/javascripts/s3.js')
   script(src='/javascripts/result.js')
   script.
-    const start = #{leaderboard.start};
+    const start = #{leaderboard.startTime};
     setupTimer(start);
 
     const mySmileIsMyPassortVerifyMe = () => {
