@@ -9,7 +9,7 @@ exports.createUser = (params) => {
     company: params.company,
   };
 
-  return request.post(`${process.env.API_URL}/user`)
+  return request.post(`${process.env.API_URL}/leaderboard`)
     .set('Content-Type', 'application/json')
     .send(user)
     .then(res => res.body);
@@ -23,27 +23,27 @@ exports.startUser = (params) => {
     challengeId: params.challengeId,
   };
 
-  return request.post(`${process.env.API_URL}/leaderboard`)
-    .set('Content-Type', 'application/json')
-    .send(user)
-    .then(res => res.body);
-};
-
-exports.stopUser = (params) => {
-  console.error('STOPPING USER');
-
-  const user = {
-    email: params.email,
-  };
-
   return request.put(`${process.env.API_URL}/leaderboard`)
     .set('Content-Type', 'application/json')
     .send(user)
     .then(res => res.body);
 };
 
+exports.stopUser = (email) => {
+  console.error('STOPPING USER');
+
+  const user = {
+    email,
+  };
+
+  return request.del(`${process.env.API_URL}/leaderboard`)
+    .set('Content-Type', 'application/json')
+    .send(user)
+    .then(res => res.body);
+};
+
 exports.getLeaderboardByEmail = (email) => {
-  console.error('GET LEADERBOARD');
+  console.error('GET LEADERBOARD BY EMAIL');
 
   const user = {
     email,
@@ -52,5 +52,13 @@ exports.getLeaderboardByEmail = (email) => {
   return request.get(`${process.env.API_URL}/leaderboard`)
     .set('Content-Type', 'application/json')
     .query(user)
+    .then(res => res.body);
+};
+
+exports.getLeaderboard = () => {
+  console.error('GET LEADERBOARD');
+
+  return request.get(`${process.env.API_URL}/leaderboard`)
+    .set('Content-Type', 'application/json')
     .then(res => res.body);
 };

@@ -2,7 +2,7 @@ const express = require('express');
 const { body, validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 
-const api = require('../api/user');
+const api = require('../api/leaderboard');
 
 const router = express.Router();
 

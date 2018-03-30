@@ -38,5 +38,4 @@ empty_table() {
   done
 }
 
-empty_table ${SERVICE}-${STAGE}-users email
 empty_table ${SERVICE}-${STAGE}-leaderboard email

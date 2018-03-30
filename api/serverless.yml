@@ -22,7 +22,6 @@ provider:
         - "dynamodb:UpdateItem"
         - "dynamodb:Scan"
       Resource:
-        - { "Fn::Sub" : "arn:aws:dynamodb:${self:custom.region}:${AWS::AccountId}:table/${self:service}-${self:custom.stage}-users" }
         - { "Fn::Sub" : "arn:aws:dynamodb:${self:custom.region}:${AWS::AccountId}:table/${self:service}-${self:custom.stage}-leaderboard" }
     - Effect: "Allow"
       Action:
@@ -53,24 +52,24 @@ custom:
   thing_name: pi-johnf
 
 functions:
-  userCreate:
-    handler: src/user.create
-    events:
-      - http:
-          path: user
-          method: post
   leaderboardCreate:
     handler: src/leaderboard.create
     events:
       - http:
           path: leaderboard
           method: post
-  leaderboardUpdate:
-    handler: src/leaderboard.update
+  leaderboardStart:
+    handler: src/leaderboard.start
     events:
       - http:
           path: leaderboard
           method: put
+  leaderboardStop:
+    handler: src/leaderboard.stop
+    events:
+      - http:
+          path: leaderboard
+          method: delete
   leaderboardGet:
     handler: src/leaderboard.get
     events:
@@ -87,19 +86,6 @@ functions:
 
 resources:
   Resources:
-    UsersTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: "${self:service}-${self:custom.stage}-users"
-        AttributeDefinitions:
-          - AttributeName: email
-            AttributeType: S
-        KeySchema:
-          - AttributeName: email
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
     Leaderboard:
       Type: AWS::DynamoDB::Table
       Properties:

@@ -3,13 +3,12 @@ const DynamoDB = require('aws-sdk/clients/dynamodb');
 const docClient = new DynamoDB.DocumentClient();
 
 module.exports.create = (event, context, callback) => {
-  const { email, challengeId } = JSON.parse(event.body);
-  const now = Date.now();
+  const { email, name, company } = JSON.parse(event.body);
 
   const item = {
     email,
-    challengeId,
-    start: now,
+    name,
+    company,
   };
 
   const params = {
@@ -31,7 +30,7 @@ module.exports.create = (event, context, callback) => {
       if (e.code === 'ConditionalCheckFailedException') {
         const response = {
           statusCode: 200,
-          body: JSON.stringify({ error: { code: 'user', msg: 'Email already exists in leaderboard' } }),
+          body: JSON.stringify({ error: { code: 'user', msg: 'Email already exists' } }),
         };
 
         return callback(null, response);
@@ -41,26 +40,22 @@ module.exports.create = (event, context, callback) => {
     });
 };
 
-module.exports.update = (event, context, callback) => {
-  const { email } = JSON.parse(event.body);
+module.exports.start = (event, context, callback) => {
+  const { email, challengeId } = JSON.parse(event.body);
   const now = Date.now();
-
-  const item = {
-    end: now,
-  };
 
   const params = {
     TableName: `${process.env.SERVICE}-${process.env.ENVIRONMENT}-leaderboard`,
-    Key: { HashKey: email },
-    Item: item,
-    ConditionExpression: 'attribute_not_exists(end)',
+    Key: { email },
+    ConditionExpression: 'attribute_not_exists(startTime)',
     ExpressionAttributeValues: {
-      ':end': now,
+      ':challengeId': challengeId,
+      ':startTime': now,
     },
-    UpdateExpression: 'set #end = :end',
+    UpdateExpression: 'set startTime = :startTime, challengeId = :challengeId',
   };
 
-  docClient.put(params).promise()
+  docClient.update(params).promise()
     .then(() => {
       const response = {
         statusCode: 200,
@@ -73,7 +68,44 @@ module.exports.update = (event, context, callback) => {
       if (e.code === 'ConditionalCheckFailedException') {
         const response = {
           statusCode: 200,
-          body: JSON.stringify({ error: { code: 'user', msg: 'Email already exists in leaderboard' } }),
+          body: JSON.stringify({ error: { code: 'user', msg: 'Email already started in leaderboard' } }),
+        };
+
+        return callback(null, response);
+      }
+
+      return callback(e);
+    });
+};
+
+module.exports.stop = (event, context, callback) => {
+  const { email } = JSON.parse(event.body);
+  const now = Date.now();
+
+  const params = {
+    TableName: `${process.env.SERVICE}-${process.env.ENVIRONMENT}-leaderboard`,
+    Key: { email },
+    ConditionExpression: 'attribute_not_exists(endTime)',
+    ExpressionAttributeValues: {
+      ':endTime': now,
+    },
+    UpdateExpression: 'set endTime = :endTime',
+  };
+
+  docClient.update(params).promise()
+    .then(() => {
+      const response = {
+        statusCode: 200,
+        body: JSON.stringify({}),
+      };
+
+      callback(null, response);
+    })
+    .catch((e) => {
+      if (e.code === 'ConditionalCheckFailedException') {
+        const response = {
+          statusCode: 200,
+          body: JSON.stringify({ error: { code: 'user', msg: 'Email already ended in leaderboard' } }),
         };
 
         return callback(null, response);

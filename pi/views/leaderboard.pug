@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  div(class='row')
+    span
+      p Bulletproof Escape Fridge Leaderboard
+
+  div(class='row')
+    each entry in leaderboard
+      pre= entry

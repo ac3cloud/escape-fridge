@@ -11,6 +11,7 @@ const index = require('./routes/index');
 const users = require('./routes/users');
 const challenge = require('./routes/challenge');
 const s3 = require('./routes/s3');
+const leaderboard = require('./routes/leaderboard');
 
 const IoT = require('./lib/iot').default;
 const WSS = require('./lib/wss').default;
@@ -44,7 +45,7 @@ const app = express();
 
 const gpio = new GPIO();
 const wss = new WSS(gpio);
-const iot = new IoT(wss, gpio); // eslint-disable-line no-unused-vars
+const iot = new IoT(wss, gpio, app); // eslint-disable-line no-unused-vars
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -61,6 +62,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/challenge', challenge);
 app.use('/s3', s3);
+app.use('/leaderboard', leaderboard);
 
 reload(app);
 

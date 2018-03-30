@@ -1,10 +1,12 @@
 const path = require('path');
 const awsIot = require('aws-iot-device-sdk');
 
+const api = require('../api/leaderboard');
+
 const certPath = path.join(__dirname, '..', 'certs');
 
 class IoT {
-  constructor(wss, gpio) {
+  constructor(wss, gpio, app) {
     const deviceOptions = {
       keyPath: path.join(certPath, 'private.pem'),
       certPath: path.join(certPath, 'cert.pem'),
@@ -30,6 +32,7 @@ class IoT {
     this.thingShadow = thingShadow;
     this.wss = wss;
     this.gpio = gpio;
+    this.app = app;
 
     this.gpio.setup('fridge');
     this.gpio.setup('outoftime');
@@ -70,6 +73,12 @@ class IoT {
 
     console.error('Updating State');
     this.setFridgeState(desiredState.fridge.state);
+
+    if (desiredState.fridge.state === 'unlocked') {
+      const { email } = this.app.locals;
+
+      api.stopUser(email);
+    }
   }
 
   updateShadow() {
