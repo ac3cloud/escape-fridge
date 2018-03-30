@@ -84,7 +84,11 @@ module.exports.update = (event, context, callback) => {
 };
 
 module.exports.get = (event, context, callback) => {
-  const { email } = event.queryStringParameters;
+  let email;
+
+  if (event.queryStringParameters) {
+    ({ email } = event.queryStringParameters);
+  }
 
   const params = {
     TableName: `${process.env.SERVICE}-${process.env.ENVIRONMENT}-leaderboard`,
@@ -98,7 +102,7 @@ module.exports.get = (event, context, callback) => {
   docClient.scan(params).promise()
     .then((result) => {
       console.error(result);
-      const items = email ? result.Items[0] : result.Itemss;
+      const items = email ? result.Items[0] : result.Items;
       const response = {
         statusCode: 200,
         body: JSON.stringify(items),
