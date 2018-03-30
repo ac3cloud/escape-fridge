@@ -6,7 +6,9 @@ const countdown = () => new Promise((resolve /* , reject */) => { // eslint-disa
     () => {
       switch (counter) {
         case 4:
-          $('#countdown').show();
+          $('#output').addClass('collapse');
+          $('#camera').removeClass('collapse');
+          $('#countdown').removeClass('collapse');
           msg = 'Ready!';
           break;
         case 3:
@@ -19,7 +21,7 @@ const countdown = () => new Promise((resolve /* , reject */) => { // eslint-disa
           break;
         default:
           clearInterval(timerInterval);
-          $('#countdown').hide();
+          $('#countdown').addClass('collapse');
           resolve();
           return;
       }

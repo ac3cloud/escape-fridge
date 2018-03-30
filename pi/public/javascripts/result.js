@@ -1,7 +1,7 @@
 const showResult = (isSmiling) => { // eslint-disable-line no-unused-vars
-  const msg = `Access ${isSmiling ? 'granted' : 'denied, try again'}!!!`;
+  const msg = `Access ${isSmiling === 'success' ? 'granted' : 'denied, try again'}!!!`;
 
-  $('#result').addClass(`alert-${isSmiling ? 'success' : 'danger'}`);
+  $('#result').addClass(`alert-${isSmiling === 'success' ? 'success' : 'danger'}`);
   $('#result p').html(msg);
   $('#result').show();
 };

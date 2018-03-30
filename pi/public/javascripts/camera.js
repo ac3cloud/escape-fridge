@@ -27,7 +27,7 @@ const clearphoto = () => {
 // format data URL. By drawing it on an offscreen canvas and then
 // drawing that to the screen, we can change its size and/or apply
 // other changes before drawing it.
-const takePhoto = () => {
+const takePhoto = () => { // eslint-disable-line no-unused-vars
   const context = canvas.getContext('2d');
   if (width && height) {
     canvas.width = width;
@@ -36,6 +36,10 @@ const takePhoto = () => {
 
     const data = canvas.toDataURL('image/png');
     photo.setAttribute('src', data);
+
+    $('#camera').addClass('collapse');
+    $('#face-data p').html('Processing your smile...');
+    $('#output').removeClass('collapse');
   } else {
     clearphoto();
   }
