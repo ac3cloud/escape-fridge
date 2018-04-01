@@ -13,7 +13,7 @@ const Rekognition = require('aws-sdk/clients/rekognition');
 const iot = new IotData({ endpoint: process.env.IOT_ENDPOINT });
 const rekognition = new Rekognition();
 
-const SMILE_THRESHOLD = 60;
+const SMILE_THRESHOLD = 100;
 
 const sendFaceData = (data) => {
   const payloadJSON = {
