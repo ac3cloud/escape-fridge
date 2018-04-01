@@ -86,7 +86,7 @@ const checkSmileThreshold = (data) => {
   const isSmiling = smile.Value && smile.Confidence > SMILE_THRESHOLD;
 
   if (isSmiling) {
-    setFridge('unlocked');
+    setFridge('locked');
   }
 
   sendResult(isSmiling ? 'success' : 'failure');
