@@ -1,0 +1,61 @@
+{
+    "ace": {
+        "@tabSize": 2
+    },
+    "build": {
+        "@saveall": true
+    },
+    "format": {
+        "jsbeautify": {
+            "@jslinthappy": false
+        }
+    },
+    "golang": {
+        "@completion": false
+    },
+    "language": {
+        "tern_defs": {
+            "json()": {
+                "browser": {
+                    "enabled": true
+                },
+                "ecma5": {
+                    "enabled": true
+                },
+                "jQuery": {
+                    "enabled": true
+                }
+            }
+        }
+    },
+    "php": {
+        "@completion": false
+    },
+    "python": {
+        "@completion": false
+    },
+    "run": {
+        "configs": {
+            "@inited": "true",
+            "json()": {
+                "Deploy API": {
+                    "command": "",
+                    "env": {
+                        "AWS_PROFILE": "escape-fridge"
+                    },
+                    "name": "Deploy API",
+                    "runner": "api-deploy",
+                    "toolbar": true
+                },
+                "Pi Server": {
+                    "command": "",
+                    "name": "Pi Server",
+                    "toolbar": true
+                }
+            }
+        }
+    },
+    "welcome": {
+        "@first": true
+    }
+}

@@ -29,3 +29,14 @@ Code is split up into a couple of directories
   building up the cloud formation
 * an admin script on the pi rotates through the scenarios
 
+
+# Environment Setup
+
+* Check out this repo in home directory
+```
+git clone https://github.com/bulletproofnetworks/escape_booth escape-fridge
+```
+* Setup Cloud9: Run the script and follow the instructions
+```
+admin/bin/setup-cloud9
+```

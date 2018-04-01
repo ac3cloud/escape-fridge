@@ -1,0 +1,55 @@
+#!/bin/bash
+
+uname -m | grep arm
+if [ $? = 0 ]; then
+  ARCH=arm
+else
+  ARCH=386
+fi
+
+if [ "$(command -v ngrok)" == "" ]; then
+  echo 'Installing ngrok'
+  cd /tmp
+  # wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-${ARCH}.zip
+  unzip ngrok.zip
+  sudo mv ngrok /usr/local/bin
+fi
+
+killall ngrok
+sleep 1
+
+ngrok start --region au --none > /dev/null &
+
+sleep 2
+
+URL=$(curl \
+  --silent \
+  http://localhost:4040/api/tunnels \
+  --data '{ "addr": 22, "proto": "tcp", "name": "ssh" }' -H 'Content-Type: application/json' \
+  | jq -r .public_url
+)
+echo $URL
+
+HOSTNAME=$(echo $URL | sed 's/tcp:..//;s/:.*//')
+PORT=$(echo $URL | sed 's/.*://;')
+
+echo Visit https://ap-southeast-1.console.aws.amazon.com/cloud9/home/create and create and SSH based cloud9
+echo NAME: pi
+echo TYPE: ssh
+echo ENVIRONMENT: ~/escape_fridge
+echo USERNAME: pi
+echo HOSTNAME: $HOSTNAME
+echo PORT: $PORT
+echo NODE BINARY: /usr/bin/node
+echo add the public key to ~/.ssh/authorized_hosts
+echo
+echo Choose following modules
+echo   * IDE
+echo   * CLI
+echo   * find
+echo
+echo Then do the following
+echo  * Right click on "api" dir and add to favourites
+echo  * Right click on "pi" dir and add to favourites
+echo  "* Favoutirs -> Preferences -> untick show env root"
+
