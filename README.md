@@ -125,4 +125,15 @@ cd ../api
 yarn run deploy
 cd ../pi
 bin/setup-iot
+=======
+## Before each new challenge
+
+* Reset the environment
+```
+admin/bin/reset-pi
+```
+
+* Reset the browser
+```
+admin/bin/browser-tabs
 ```

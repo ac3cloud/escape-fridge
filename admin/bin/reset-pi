@@ -1,0 +1,18 @@
+#!/bin/sh
+
+CHALLENGE=$1
+if [ "$CHALLENGE" == "" ]; then
+  echo Please specify environment e.g. c2
+  exit 1
+fi
+
+echo "Reset the current branch..."
+git reset --hard HEAD
+git clean -f
+
+echo "Checking out new branch..."
+git co $CHALLENGE
+
+echo "Redploying API"
+cd api
+./node_modules/.bin/sls deploy -s production
