@@ -18,7 +18,7 @@ module.exports.click = (/* event , context, callback */) => {
   const payload = JSON.stringify(payloadJSON);
 
   const params = {
-    topic: 'pi',
+    topic: 'escape',
     payload,
   };
 
