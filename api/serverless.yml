@@ -24,11 +24,6 @@ provider:
         - Fn::Sub: "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:thing/${self:custom.thing_name}"
     - Effect: "Allow"
       Action:
-        - "rekognition:DetectFaces"
-      Resource:
-        - "*"
-    - Effect: "Allow"
-      Action:
         - "s3:GetObject"
       Resource:
         - "arn:aws:s3:::${self:service}-${self:custom.stage}-faces/*"

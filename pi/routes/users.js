@@ -38,7 +38,7 @@ router.get('/start', validations, (req, res /* , next */) => {
 
 router.post('/start', validations, (req, res /* , next */) => {
   const { email } = req.cookies;
-  const challengeId = 1; // TODO stop hard coding this
+  const challengeId = 2; // TODO stop hard coding this
 
   if (!email) {
     res.render('error', { message: 'User not logged in', error: {} });
