@@ -120,7 +120,7 @@ resources:
             - Event: "s3:ObjectCreated:*"
               Function:
                 Fn::GetAtt:
-                  - S3TriggerLambdaFunction
+                  - ButtonClickLambdaFunction
                   - Arn
     S3TriggerLambdaPermissionEscapeboothproductionfacesS3:
       Type: AWS::Lambda::Permission
