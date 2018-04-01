@@ -15,7 +15,7 @@ if [ "$(command -v ngrok)" == "" ]; then
   sudo mv ngrok /usr/local/bin
 fi
 
-killall ngrok
+killall --quiet ngrok
 sleep 1
 
 ngrok start --region au --none > /dev/null &
@@ -51,5 +51,5 @@ echo
 echo Then do the following
 echo  * Right click on "api" dir and add to favourites
 echo  * Right click on "pi" dir and add to favourites
-echo  "* Favoutirs -> Preferences -> untick show env root"
+echo  "* Favourites -> Preferences -> untick show env root"
 

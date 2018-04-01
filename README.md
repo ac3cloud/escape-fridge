@@ -1,6 +1,6 @@
-# Escape Booth
+# Escape Fridge
 
-AWS Summit Sydney 2018 Escape Booth
+AWS Summit Sydney 2018 Escape Fridge
 
 # WE WILL BE OPEN SOURCING THIS CODE SO BE CAREFUL ABOUT YOUR COMMITS
 
@@ -32,11 +32,31 @@ Code is split up into a couple of directories
 
 # Environment Setup
 
+* Add credentials to ~/.aws/credentials
+```
+[escape-fridge]
+aws_access_key_id     = AK...
+aws_secret_access_key = od...
+```
+
+* Default the region in ~/.aws/config
+```
+[profile escape-fridge]
+region = ap-southeast-2
+output = json
+```
+
 * Check out this repo in home directory
 ```
 git clone https://github.com/bulletproofnetworks/escape_booth escape-fridge
 ```
+
 * Setup Cloud9: Run the script and follow the instructions
 ```
 admin/bin/setup-cloud9
+```
+
+* Open the browser
+```
+admin/bin/browser-tabs
 ```

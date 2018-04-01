@@ -1,0 +1,34 @@
+#!/bin/sh
+
+set -x
+
+export AWS_PROFILE=escape-fridge
+
+echo 'opening browser tabs'
+
+if [ $(command -v google-chrome-unstable) != "" ]; then
+  BROWSER=google-chrome-unstable
+elif [ $(command -v chromium) != "" ]; then
+  BROWSER=chromium
+fi
+
+killall -q chrome chromium
+sleep 1
+killall -q chrome chromium
+sleep 1
+
+ENVID=$(
+  aws cloud9 list-environments \
+    --region ap-southeast-1 \
+    | jq -r .environmentIds[0]
+)
+
+URLS="http://localhost:3000"
+URLS="$URLS https://localhost:3000/leaderboard"
+URLS="$URLS https://ap-southeast-1.console.aws.amazon.com/cloud9/ide/${ENVID}"
+URLS="$URLS https://ap-southeast-2.console.aws.amazon.com/cloudwatch/home?region=ap-southeast-2#logs:"
+URLS="$URLS https://s3.console.aws.amazon.com/s3/home?region=ap-southeast-2#"
+URLS="$URLS https://ap-southeast-2.console.aws.amazon.com/lambda/home?region=ap-southeast-2#"
+URLS="$URLS https://ap-southeast-2.console.aws.amazon.com/iot/home?region=ap-southeast-2#/dashboard"
+
+$BROWSER $URLS >/dev/null 2>&1 &
