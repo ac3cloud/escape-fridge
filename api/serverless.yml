@@ -61,7 +61,7 @@ resources:
     IoTPolicy:
       Type: AWS::IoT::Policy
       Properties:
-        PolicyName: "escape-booth-button-${self:custom.stage}"
+        PolicyName: "${self:service}-button-${self:custom.stage}"
         PolicyDocument:
           Version: "2012-10-17"
           Statement:
@@ -72,7 +72,7 @@ resources:
     IoTPolicyPi:
       Type: AWS::IoT::Policy
       Properties:
-        PolicyName: "escape-booth-pi-${self:custom.stage}"
+        PolicyName: "${self:service}-pi-${self:custom.stage}"
         PolicyDocument:
           Version: "2012-10-17"
           Statement:

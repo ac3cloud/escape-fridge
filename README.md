@@ -115,3 +115,14 @@ Setup Cloud9
 ```
 admin/bin/browser-tabs
 ```
+
+# Depoy stuff
+
+```
+cd admin
+yarn run deploy
+cd ../api
+yarn run deploy
+cd ../pi
+bin/setup-iot
+```
