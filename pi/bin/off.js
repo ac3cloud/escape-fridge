@@ -28,6 +28,7 @@ gpio.setup(11, gpio.DIR_LOW, (err) => {
 
 console.error('out');
 
+process.exit(0);
 /*
 gpio.setup(7, gpio.DIR_OUT, write);
 
