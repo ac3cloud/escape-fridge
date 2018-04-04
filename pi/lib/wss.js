@@ -2,7 +2,7 @@ const WebSocket = require('ws');
 
 class WSS {
   constructor(gpio) {
-    const wss = new WebSocket.Server({ port: 8080 });
+    const wss = new WebSocket.Server({ port: 8081 });
 
     wss.on('connection', this.handleConnection.bind(this));
 
