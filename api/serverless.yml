@@ -40,8 +40,8 @@ custom:
   stage: ${opt:stage, self:provider.stage}
   region: ${opt:region, self:provider.region}
   iotButtonDSN: 'G030JF059367J79T'
-  iotCertificateArn: 'arn:aws:iot:ap-southeast-2:119243932312:cert/f2986a97ca9a89a97a277433b61bd8bfd5e00a13d3463362d98e021a1f37715f'
-  thing_name: pi-johnf
+  iotCertificateArn: 'arn:aws:iot:ap-southeast-2:750569066954:cert/9cbe48b0e208cf2e9f226240e5c8471c7526241f070e8dbba007d334601ac240'
+  thing_name: pi
 
 functions:
   buttonClick:
