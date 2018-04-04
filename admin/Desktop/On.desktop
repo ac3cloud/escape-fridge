@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=On
+Comment=Reset board to on
+Exec=/home/pi/escape-fridge/pi/bin/on.js
+Type=Application
+Terminal=false
