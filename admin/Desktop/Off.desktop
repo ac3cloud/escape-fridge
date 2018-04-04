@@ -2,6 +2,6 @@
 Encoding=UTF-8
 Name=Off
 Comment=Reset board to off
-Exec=/home/pi/escape-fridge/pi/bin/off.js
+Exec=/home/pi/escape-fridge/pi/bin/off
 Type=Application
 Terminal=false
