@@ -29,17 +29,56 @@ Code is split up into a couple of directories
   building up the cloud formation
 * an admin script on the pi rotates through the scenarios
 
+# Pi Setup
+
+## Install node
+```
+# Greg to fill in
+
+echo export PATH=/home/pi/node-v9.9.0-linux-armv7l/bin:$PATH >> .bashrc
+```
+
+## Setup ssh
+```
+echo  PasswordAuthentication no | sudo tee -a /etc/ssh/sshd_config
+sudo ssh restart
+```
+
+## Install other bits
+```
+sudo apt-get install jq python-pip
+sudo pip install awscli
+```
+
+## Routing
+
+Configure router to port forward port 22 if pi doesn't have a public IP
+
+## Dynamic DNS
+
+Set it up for no-ip.com
+```
+apt-get install ddclient
+sudo dpkg-reconfigure ddclient
+
+# /etc/ddclient.conf
+protocol=dyndns2
+server=dynupdate.no-ip.com
+login=EMAIL
+password=PASS
+escapefridge.ddns.net
+```
 
 # Environment Setup
 
-* Add credentials to ~/.aws/credentials
+Add credentials to ~/.aws/credentials
 ```
 [escape-fridge]
 aws_access_key_id     = AK...
 aws_secret_access_key = od...
 ```
 
-* Default the region in ~/.aws/config
+Default the region in ~/.aws/config
 ```
 [profile escape-fridge]
 region = ap-southeast-2
@@ -51,10 +90,25 @@ output = json
 git clone https://github.com/bulletproofnetworks/escape_booth escape-fridge
 ```
 
-* Setup Cloud9: Run the script and follow the instructions
+Setup reverse SSH tunnel (Only needed if no public IP or you can't port forward)
 ```
-admin/bin/setup-cloud9
+admin/bin/setup-tunnel
 ```
+
+Setup Cloud9
+* Visit https://ap-southeast-1.console.aws.amazon.com/cloud9/home/create and create and SSH based cloud9
+* NAME: pi
+* TYPE: ssh
+* ENVIRONMENT: ~/escape-fridge
+* USERNAME: pi
+* HOSTNAME: escapefridge.ddns.net
+* add the public key to ~/.ssh/authorized_hosts
+*
+*  Choose following modules
+*    * IDE
+*    * CLI
+*    * find
+* 
 
 * Open the browser
 ```

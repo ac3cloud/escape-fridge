@@ -9,12 +9,12 @@ echo 'opening browser tabs'
 if [ $(command -v google-chrome-unstable) != "" ]; then
   BROWSER=google-chrome-unstable
 elif [ $(command -v chromium) != "" ]; then
-  BROWSER=chromium
+  BROWSER=chromium-browser
 fi
 
-killall -q chrome chromium
+killall -q chrome chromium-browser
 sleep 1
-killall -q chrome chromium
+killall -q chrome chromium-browser
 sleep 1
 
 ENVID=$(

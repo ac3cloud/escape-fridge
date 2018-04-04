@@ -33,23 +33,5 @@ echo $URL
 HOSTNAME=$(echo $URL | sed 's/tcp:..//;s/:.*//')
 PORT=$(echo $URL | sed 's/.*://;')
 
-echo Visit https://ap-southeast-1.console.aws.amazon.com/cloud9/home/create and create and SSH based cloud9
-echo NAME: pi
-echo TYPE: ssh
-echo ENVIRONMENT: ~/escape_fridge
-echo USERNAME: pi
 echo HOSTNAME: $HOSTNAME
 echo PORT: $PORT
-echo NODE BINARY: /usr/bin/node
-echo add the public key to ~/.ssh/authorized_hosts
-echo
-echo Choose following modules
-echo   * IDE
-echo   * CLI
-echo   * find
-echo
-echo Then do the following
-echo  * Right click on "api" dir and add to favourites
-echo  * Right click on "pi" dir and add to favourites
-echo  "* Favourites -> Preferences -> untick show env root"
-
