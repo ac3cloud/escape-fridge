@@ -3,7 +3,9 @@
     "cd ~/escape-fridge/api",
     "yarn run deploy"
   ],
-  "env": {},
+  "env": {
+    "ENV": "PATH": "/home/pi/node-v9.9.0-linux-armv7l/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games"
+  },
   "info": "\\033[01;34mDeploying\\033[00m \\033[01;31mapi environment\\033[00m\n",
   "selector": "source.java"
 }
