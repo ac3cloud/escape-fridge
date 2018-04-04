@@ -19,8 +19,8 @@ ENVID=$(
     | jq -r .environmentIds[0]
 )
 
-URLS="http://localhost:3000"
-URLS="$URLS https://localhost:3000/leaderboard"
+URLS="http://localhost:8080"
+URLS="$URLS http://localhost:8080/leaderboard"
 URLS="$URLS https://ap-southeast-1.console.aws.amazon.com/cloud9/ide/${ENVID}"
 URLS="$URLS https://ap-southeast-2.console.aws.amazon.com/cloudwatch/home?region=ap-southeast-2#logs:"
 URLS="$URLS https://s3.console.aws.amazon.com/s3/home?region=ap-southeast-2#"
