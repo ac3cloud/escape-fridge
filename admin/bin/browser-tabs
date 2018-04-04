@@ -2,9 +2,9 @@
 
 echo 'opening browser tabs'
 
-if [ $(command -v google-chrome-unstable) != "" ]; then
+if [ "$(command -v google-chrome-unstable)" != "" ]; then
   BROWSER=google-chrome-unstable
-elif [ $(command -v chromium) != "" ]; then
+elif [ "$(command -v chromium-browser)" != "" ]; then
   BROWSER=chromium-browser
 fi
 

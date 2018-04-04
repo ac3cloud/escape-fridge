@@ -50,6 +50,11 @@ sudo apt-get install jq python-pip
 sudo pip install awscli
 ```
 
+## Fix camwera
+```
+echo 'v4l2-ctl --set-fmt-video=width=1920,height=1080' | sudo tee -a /etc/rc.local
+```
+
 ## Routing
 
 Configure router to port forward port 22 if pi doesn't have a public IP
