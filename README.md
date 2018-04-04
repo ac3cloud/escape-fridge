@@ -96,6 +96,7 @@ admin/bin/setup-tunnel
 ```
 
 Setup Cloud9
+* DO THIS AS THE pi-web USER
 * Visit https://ap-southeast-1.console.aws.amazon.com/cloud9/home/create and create and SSH based cloud9
 * NAME: pi
 * TYPE: ssh
