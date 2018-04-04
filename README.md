@@ -55,6 +55,13 @@ sudo pip install awscli
 echo 'v4l2-ctl --set-fmt-video=width=1920,height=1080' | sudo tee -a /etc/rc.local
 ```
 
+## Usefule desktop links
+
+```
+cd
+ln -s escape-fridge/admin/Desktop
+```
+
 ## Routing
 
 Configure router to port forward port 22 if pi doesn't have a public IP

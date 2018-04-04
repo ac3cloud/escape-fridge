@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Restart Browser
+Comment=Starts the browser with useful tabs
+Exec=/home/pi/escape-fridge/admin/bin/browser-tabs
+Type=Application
+Terminal=false
