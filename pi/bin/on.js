@@ -14,21 +14,22 @@ gpio.setup(7, gpio.DIR_LOW, (err) => {
     if (err2) throw err2;
     console.error('written to pin');
     // gpio.destroy();
-  });
-});
-gpio.setup(11, gpio.DIR_LOW, (err) => {
-  if (err) throw err;
-  console.error('going to write');
-  gpio.write(11, true, (err2) => {
-    if (err2) throw err2;
-    console.error('written to pin');
-    // gpio.destroy();
+    gpio.setup(11, gpio.DIR_LOW, (err) => {
+      if (err) throw err;
+      console.error('going to write');
+      gpio.write(11, true, (err2) => {
+        if (err2) throw err2;
+        console.error('written to pin');
+        // gpio.destroy();
+
+        console.error('out');
+        process.exit(0);
+
+      });
+    });
   });
 });
 
-console.error('out');
-
-process.exit(0);
 /*
 gpio.setup(7, gpio.DIR_OUT, write);
 function write() {
