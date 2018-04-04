@@ -71,19 +71,7 @@ escapefridge.ddns.net
 
 # Environment Setup
 
-Add credentials to ~/.aws/credentials
-```
-[escape-fridge]
-aws_access_key_id     = AK...
-aws_secret_access_key = od...
-```
-
-Default the region in ~/.aws/config
-```
-[profile escape-fridge]
-region = ap-southeast-2
-output = json
-```
+Setup your AWS credentials in ~/.aws
 
 * Check out this repo in home directory
 ```

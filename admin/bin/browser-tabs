@@ -1,9 +1,5 @@
 #!/bin/sh
 
-set -x
-
-export AWS_PROFILE=escape-fridge
-
 echo 'opening browser tabs'
 
 if [ $(command -v google-chrome-unstable) != "" ]; then
