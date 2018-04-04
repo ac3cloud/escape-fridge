@@ -1,4 +1,4 @@
 #!/bin/bash
 
 PATH=/home/pi/node-v9.9.0-linux-armv7l/bin
-node ~/escape-fridge/pi/bin/on.js &
+node ~/escape-fridge/pi/bin/on.js
