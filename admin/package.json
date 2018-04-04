@@ -1,0 +1,24 @@
+{
+  "author": "John Ferlito <johnf@inodes.org> (https://inodes.org)",
+  "name": "admin-api",
+  "description": "Escape Booth - Admin API",
+  "license": "ISC",
+  "private": true,
+  "scripts": {
+    "deploy": "sls -s production deploy",
+    "lint": "eslint ."
+  },
+  "version": "1.0.0",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-import": "^2.9.0",
+    "serverless": "^1.26.1",
+    "serverless-webpack": "^5.1.0",
+    "webpack": "^4.2.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.213.1"
+  }
+}

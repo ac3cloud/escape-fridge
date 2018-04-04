@@ -1,4 +1,4 @@
-service: escape-booth
+service: escape-fridge
 
 plugins:
   - serverless-webpack
@@ -11,18 +11,10 @@ provider:
   variableSyntax: "\\${((?!(AWS|iot))[ ~:a-zA-Z0-9._'\",\\-\\/\\(\\)]+?)}"
   environment:
     ENVIRONMENT: ${opt:stage, self:provider.stage}
-    IOT_ENDPOINT: "a3w4p9i1vbktha.iot.ap-southeast-2.amazonaws.com"
+    IOT_ENDPOINT: "a2lpba7qk5u1yv.iot.ap-southeast-2.amazonaws.com"
     THING_NAME: ${self:custom.thing_name}
     SERVICE: ${self:service}
   iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - "dynamodb:GetItem"
-        - "dynamodb:PutItem"
-        - "dynamodb:UpdateItem"
-        - "dynamodb:Scan"
-      Resource:
-        - { "Fn::Sub" : "arn:aws:dynamodb:${self:custom.region}:${AWS::AccountId}:table/${self:service}-${self:custom.stage}-leaderboard" }
     - Effect: "Allow"
       Action:
         - "iot:Publish"
@@ -52,30 +44,6 @@ custom:
   thing_name: pi-johnf
 
 functions:
-  leaderboardCreate:
-    handler: src/leaderboard.create
-    events:
-      - http:
-          path: leaderboard
-          method: post
-  leaderboardStart:
-    handler: src/leaderboard.start
-    events:
-      - http:
-          path: leaderboard
-          method: put
-  leaderboardStop:
-    handler: src/leaderboard.stop
-    events:
-      - http:
-          path: leaderboard
-          method: delete
-  leaderboardGet:
-    handler: src/leaderboard.get
-    events:
-      - http:
-          path: leaderboard
-          method: get
   buttonClick:
     handler: src/button.click
     events:
@@ -86,19 +54,6 @@ functions:
 
 resources:
   Resources:
-    Leaderboard:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: "${self:service}-${self:custom.stage}-leaderboard"
-        AttributeDefinitions:
-          - AttributeName: email
-            AttributeType: S
-        KeySchema:
-          - AttributeName: email
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
     IoTThing:
       Type: AWS::IoT::Thing
       Properties:

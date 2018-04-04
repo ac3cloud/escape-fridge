@@ -1,0 +1,69 @@
+service: escape-fridge-admin
+
+plugins:
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: production
+  region: ap-southeast-2
+  variableSyntax: "\\${((?!(AWS|iot))[ ~:a-zA-Z0-9._'\",\\-\\/\\(\\)]+?)}"
+  environment:
+    ENVIRONMENT: ${opt:stage, self:provider.stage}
+    SERVICE: ${self:service}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:GetItem"
+        - "dynamodb:PutItem"
+        - "dynamodb:UpdateItem"
+        - "dynamodb:Scan"
+      Resource:
+        - { "Fn::Sub" : "arn:aws:dynamodb:${self:custom.region}:${AWS::AccountId}:table/${self:service}-${self:custom.stage}-leaderboard" }
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  region: ${opt:region, self:provider.region}
+
+functions:
+  leaderboardCreate:
+    handler: src/leaderboard.create
+    events:
+      - http:
+          path: leaderboard
+          method: post
+  leaderboardStart:
+    handler: src/leaderboard.start
+    events:
+      - http:
+          path: leaderboard
+          method: put
+  leaderboardStop:
+    handler: src/leaderboard.stop
+    events:
+      - http:
+          path: leaderboard
+          method: delete
+  leaderboardGet:
+    handler: src/leaderboard.get
+    events:
+      - http:
+          path: leaderboard
+          method: get
+
+resources:
+  Resources:
+    Leaderboard:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: "${self:service}-${self:custom.stage}-leaderboard"
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
