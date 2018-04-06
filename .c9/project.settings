@@ -40,17 +40,15 @@
             "json()": {
                 "Deploy API": {
                     "command": "",
-                    "env": {
-                        "AWS_PROFILE": "escape-fridge"
-                    },
                     "name": "Deploy API",
                     "runner": "api-deploy",
-                    "toolbar": true
+                    "toolbar": false
                 },
                 "Pi Server": {
                     "command": "",
                     "name": "Pi Server",
-                    "toolbar": true
+                    "runner": "pi",
+                    "toolbar": false
                 }
             }
         }
