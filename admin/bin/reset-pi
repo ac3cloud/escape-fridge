@@ -24,5 +24,7 @@ echo "Redploying API"
 cd api
 yarn run deploy
 
+cd ~/escape-fridge
+
 echo "Restarting browser"
 ./admin/bin/browser-tabs
