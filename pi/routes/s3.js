@@ -3,7 +3,7 @@ const S3 = require('aws-sdk/clients/s3');
 const uuidv4 = require('uuid/v4');
 
 const router = express.Router();
-const s3 = new S3();
+const s3 = new S3({ region: 'ap-southeast-2' });
 
 router.post('/', (req, res /* , next */) => {
   const uuid = uuidv4();
