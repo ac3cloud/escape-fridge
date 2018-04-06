@@ -17,7 +17,7 @@ echo "${GREEN}Updating master${NC}"
 git pull
 
 # temp ignore c9
-BRANCHES=$(git branch --list | sed 's/ *//' | grep -E '^c[0-9]+$' | grep -v c9)
+BRANCHES=$(git branch --list | sed 's/ *//' | grep -E '^c[0-9]+$')
 
 echo Updating $BRANCHES
 echo

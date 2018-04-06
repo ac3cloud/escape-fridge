@@ -1,18 +1,28 @@
 #!/bin/sh
 
-CHALLENGE=$1
-if [ "$CHALLENGE" == "" ]; then
-  echo Please specify environment e.g. c2
+set -e
+
+git branch
+echo -n "Please choose a branch... "
+read CHALLENGE
+
+if [ "$CHALLENGE" = "" ]; then
+  echo Try again
   exit 1
 fi
 
+cd ~/escape-fridge
+
 echo "Reset the current branch..."
 git reset --hard HEAD
-git clean -f
 
 echo "Checking out new branch..."
 git co $CHALLENGE
+git clean -f
 
 echo "Redploying API"
 cd api
-./node_modules/.bin/sls deploy -s production
+yarn run deploy
+
+echo "Restarting browser"
+./admin/bin/browser-tabs

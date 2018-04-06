@@ -2,11 +2,7 @@
 
 set -e
 
-STAGE=$1
-if [ -z "$STAGE" ]; then
-  echo "Provide stage name as first argument"
-  exit 1
-fi
+STAGE=production
 
 . "${BASH_SOURCE%/*}/../../pi/.env.${STAGE}.local"
 
