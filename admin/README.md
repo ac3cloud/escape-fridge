@@ -14,3 +14,7 @@
 # browser-tabs
 
 * Opens all the useful pages in the browser
+
+# reset-pi
+
+* Resets the environment before each new challenge
