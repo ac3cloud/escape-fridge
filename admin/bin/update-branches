@@ -2,7 +2,7 @@
 
 set -e
 
-BRANCHES=$(git branch -r | sed 's/ *origin\//' | grep -E '^c[0-9]+$')
+BRANCHES=$(git branch -r | sed 's/ *origin\///' | grep -E '^c[0-9]+$')
 
 git co master
 git pull -f
