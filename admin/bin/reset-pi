@@ -17,7 +17,7 @@ echo "Reset the current branch..."
 git reset --hard HEAD
 
 echo "Checking out new branch..."
-git co $CHALLENGE
+git checkout $CHALLENGE
 git clean -f
 
 echo "Redploying API"
