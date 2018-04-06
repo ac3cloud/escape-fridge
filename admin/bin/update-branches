@@ -4,11 +4,11 @@ set -e
 
 BRANCHES=$(git branch -r | sed 's/ *origin\///' | grep -E '^c[0-9]+$')
 
-git co master
+git checkout master
 git pull -f
 
 for branch in $BRANCHES; do
-  git co $branch
+  git checkout $branch
   git pull -f
   echo
   echo
