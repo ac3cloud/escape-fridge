@@ -2,12 +2,12 @@
 
 set -e
 
-BRANCHES=$(git branch -r | sed 's/ *origin\///' | grep -E '^c[0-9]+$')
-
 git fetch
 
 git checkout master
 git pull
+
+BRANCHES=$(git branch -r | sed 's/ *origin\///' | grep -E '^c[0-9]+$')
 
 for branch in $BRANCHES; do
   git checkout $branch
