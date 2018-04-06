@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Reset Pi
+Comment=Updates all the challenge branches
+Exec=/home/pi/escape-fridge/admin/bin/update-branches
+Type=Application
+Terminal=true
