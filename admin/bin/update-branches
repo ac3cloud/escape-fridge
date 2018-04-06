@@ -15,3 +15,5 @@ for branch in $BRANCHES; do
   echo
   echo
 done
+
+git checkout master
