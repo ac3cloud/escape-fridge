@@ -4,12 +4,14 @@ set -e
 
 BRANCHES=$(git branch -r | sed 's/ *origin\///' | grep -E '^c[0-9]+$')
 
+git fetch
+
 git checkout master
-git pull -f
+git pull
 
 for branch in $BRANCHES; do
   git checkout $branch
-  git pull -f
+  git reset --hard origin/$branch
   echo
   echo
 done
