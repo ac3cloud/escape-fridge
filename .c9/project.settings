@@ -13,6 +13,9 @@
     "golang": {
         "@completion": false
     },
+    "javascript": {
+        "@use_jsbeautify": false
+    },
     "language": {
         "tern_defs": {
             "json()": {
