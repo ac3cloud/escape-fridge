@@ -22,7 +22,12 @@ git clean -f
 
 echo "Redploying API"
 cd api
+yarn
 yarn run deploy
+
+echo "Setting up pi"
+cd ../pi
+yarn
 
 cd ~/escape-fridge
 
