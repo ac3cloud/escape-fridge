@@ -2,6 +2,8 @@
 
 set -e
 
+cd ~/escape-fridge
+
 git branch
 echo -n "Please choose a branch... "
 read CHALLENGE
@@ -11,7 +13,6 @@ if [ "$CHALLENGE" = "" ]; then
   exit 1
 fi
 
-cd ~/escape-fridge
 
 echo "Reset the current branch..."
 git reset --hard HEAD

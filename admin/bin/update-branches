@@ -2,6 +2,8 @@
 
 set -e
 
+cd ~/escape-fridge
+
 git fetch
 
 git checkout master
