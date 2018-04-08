@@ -10,8 +10,8 @@ block content
   div(id='camera' class='row')
     div(class='col')
       video(id='video' style='width: 320px') Video stream not available.
-      p Your smile is your password, verify you!
-      p Press the IoT button to start
+      p(class='text-primary') Your smile is your password, verify you!
+      button(type='button' class='btn btn-success') Press the IoT button to start
 
     div(id='countdown' class='col collapse')
       span(class='align-middle')
@@ -23,7 +23,8 @@ block content
         p
 
     div(id='face-data' class='col')
-      p
+      pre
+        code(class='language-javascript')
 
   canvas(id='canvas' class='d-none')
 
@@ -35,6 +36,7 @@ block scripts
   script(src='/javascripts/ws.js')
   script(src='/javascripts/s3.js')
   script(src='/javascripts/result.js')
+  script(src='/javascripts/prism.js')
   script.
     const start = #{leaderboard.startTime};
     setupTimer(start);

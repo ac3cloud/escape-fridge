@@ -9,6 +9,7 @@ const showResult = (isSmiling) => { // eslint-disable-line no-unused-vars
 };
 
 const showFaceData = (data) => { // eslint-disable-line no-unused-vars
-  $('#face-data p').html(JSON.stringify(data, null, 2));
+  $('#face-data pre code').html(JSON.stringify(data, null, 2));
+  Prism.highlightAll();
   $('#face-data').show();
 };

@@ -3,8 +3,8 @@ extends layout
 block content
   div(class='row')
     span
-      p Welcome to the Bulletproof Escape Fridge
-      p Please fill in your details below to make a start
+      p Welcome to the Bulletproof Escape Fridge.
+      p Please fill in your details below to get started.
 
   div(class='row')
     form(action='/users', method='POST')
@@ -26,4 +26,4 @@ block content
         if errors && errors.company
           div(class='invalid-feedback')= errors.company.msg
 
-      button(type='submit', class='btn btn-primary') Submit
+      button(type='submit', class='btn btn-primary') Create
