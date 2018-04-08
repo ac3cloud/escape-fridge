@@ -21,4 +21,4 @@ done
 git checkout master
 
 echo 'Ctrl-C to exit'
-exit
+read
