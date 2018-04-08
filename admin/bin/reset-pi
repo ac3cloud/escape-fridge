@@ -34,3 +34,6 @@ cd ~/escape-fridge
 
 echo "Restarting browser"
 ./admin/bin/browser-tabs
+
+echo 'Ctrl-C to exit'
+read

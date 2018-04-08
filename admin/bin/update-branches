@@ -19,3 +19,6 @@ for branch in $BRANCHES; do
 done
 
 git checkout master
+
+echo 'Ctrl-C to exit'
+exit
