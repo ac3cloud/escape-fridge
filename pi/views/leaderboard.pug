@@ -21,3 +21,7 @@ block content
             td= entry.company
             td= entry.challengeId
             td= entry.time
+
+block scripts
+  script.
+    setTimeout(() => window.location.reload(true), 30000);
