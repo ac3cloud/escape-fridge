@@ -10,7 +10,7 @@ const validations = [
   body('email').isEmail().withMessage('must be a valid email address').trim()
     .normalizeEmail(),
   body('name').isLength({ min: 5 }).withMessage('Your name is not long enough').trim(),
-  body('company').trim(),
+  body('company').isLength({ min: 2 }).trim(),
 ];
 router.post('/', validations, (req, res /* , next */) => {
   const errors = validationResult(req);
