@@ -46,7 +46,7 @@
                     "env": {},
                     "name": "Deploy API",
                     "runner": "api-deploy",
-                    "toolbar": false
+                    "toolbar": true
                 },
                 "Deploy Functions": {
                     "name": "Deploy Functions",
