@@ -22,7 +22,7 @@ const setupTimer = (start) => { // eslint-disable-line no-unused-vars
     const values = timer.getTotalTimeValues();
     const now = values.seconds > max ? max : values.seconds;
 
-    const minutes = Math.round(values.seconds / 60);
+    const minutes = Math.floor(values.seconds / 60);
     const seconds = Math.round(values.seconds % 60);
     const string = values.seconds > max ? maxString : `${minutes}:${seconds <= 0 ? '0' : ''}${seconds}`;
 
