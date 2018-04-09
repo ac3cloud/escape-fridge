@@ -24,7 +24,7 @@ const setupTimer = (start) => { // eslint-disable-line no-unused-vars
 
     const min = Math.round(value.seconds / 60);
     const seconds = Math.round(value.seconds % 60);
-    const string = value.seconds > max ? maxString : `${minutes}:${seconds <= 0 ? '0' : ''}${seconds}`;
+    const string = values.seconds > max ? maxString : `${minutes}:${seconds <= 0 ? '0' : ''}${seconds}`;
 
     const percentage = Math.round((now / max) * 100);
 
