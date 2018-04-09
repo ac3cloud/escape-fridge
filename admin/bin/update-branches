@@ -20,5 +20,11 @@ done
 
 git checkout master
 
+echo ' ____'
+echo '|  _ \  ___  _ __   ___'
+echo '| | | |/ _ \| '_ \ / _ \'
+echo '| |_| | (_) | | | |  __/'
+echo '|____/ \___/|_| |_|\___|'
+
 echo 'Ctrl-C to exit'
 read
