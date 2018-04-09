@@ -545,9 +545,9 @@ duplexify@^3.5.1, duplexify@^3.5.3:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-easytimer@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/easytimer/-/easytimer-1.1.1.tgz#1addde725646de2592430d03048a748d63354e94"
+easytimer.js@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/easytimer.js/-/easytimer.js-2.2.1.tgz#030cb1e063fc10938c11f0078943c5ca9fced399"
 
 ee-first@1.1.1:
   version "1.1.1"
