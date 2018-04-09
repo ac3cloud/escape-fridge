@@ -41,6 +41,12 @@
         "configs": {
             "@inited": "true",
             "json()": {
+                "Deploy Functions": {
+                    "command": "",
+                    "name": "Deploy Functions",
+                    "runner": "function-deploy",
+                    "toolbar": false
+                },
                 "Deploy API": {
                     "command": "",
                     "name": "Deploy API",
