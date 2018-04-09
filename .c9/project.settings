@@ -41,23 +41,23 @@
         "configs": {
             "@inited": "true",
             "json()": {
-                "Deploy Functions": {
-                    "command": "",
-                    "name": "Deploy Functions",
-                    "runner": "function-deploy",
-                    "toolbar": false
-                },
                 "Deploy API": {
                     "command": "",
+                    "env": {},
                     "name": "Deploy API",
                     "runner": "api-deploy",
                     "toolbar": false
+                },
+                "Deploy Functions": {
+                    "name": "Deploy Functions",
+                    "runner": "function-deploy",
+                    "toolbar": true
                 },
                 "Pi Server": {
                     "command": "",
                     "name": "Pi Server",
                     "runner": "pi",
-                    "toolbar": false
+                    "toolbar": true
                 }
             }
         }
