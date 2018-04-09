@@ -49,6 +49,7 @@
                     "toolbar": true
                 },
                 "Deploy Functions": {
+                    "command": "",
                     "name": "Deploy Functions",
                     "runner": "function-deploy",
                     "toolbar": true
