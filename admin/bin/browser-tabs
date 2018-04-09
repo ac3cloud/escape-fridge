@@ -27,7 +27,5 @@ URLS="$URLS https://s3.console.aws.amazon.com/s3/home?region=ap-southeast-2#"
 URLS="$URLS https://ap-southeast-2.console.aws.amazon.com/lambda/home?region=ap-southeast-2#"
 URLS="$URLS https://ap-southeast-2.console.aws.amazon.com/iot/home?region=ap-southeast-2#/dashboard"
 
+echo 'Starting browser...'
 $BROWSER $URLS >/dev/null 2>&1 &
-
-echo 'Ctrl-C to exit'
-read
