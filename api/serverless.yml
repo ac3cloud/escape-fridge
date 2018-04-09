@@ -49,7 +49,7 @@ functions:
     events:
       - iot:
           sql: "SELECT * FROM 'iotbutton/${self:custom.iotButtonDSN}'"
-  faceDetect:
+  s3Trigger:
     handler: src/s3.processImage
 
 resources:
