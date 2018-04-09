@@ -1,9 +1,9 @@
 const setupTimer = (start) => { // eslint-disable-line no-unused-vars
   const elapsed = Math.round((Date.now() - start) / 1000);
   const max = 600;
-  const maxMin = Math.round(max / 60);
+  const maxMin = Math.floor(max / 60);
   const maxSec = Math.round(max % 60);
-  const maxString = `${maxMin}:${maxSec <= 0 ? '0' : ''}${maxSec}`;
+  const maxString = `${maxMin}:${maxSec < 10 ? '0' : ''}${maxSec}`;
 
   const params = {
     precision: 'seconds',
@@ -24,7 +24,7 @@ const setupTimer = (start) => { // eslint-disable-line no-unused-vars
 
     const minutes = Math.floor(values.seconds / 60);
     const seconds = Math.round(values.seconds % 60);
-    const string = values.seconds > max ? maxString : `${minutes}:${seconds <= 0 ? '0' : ''}${seconds}`;
+    const string = values.seconds > max ? maxString : `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 
     const percentage = Math.round((now / max) * 100);
 
