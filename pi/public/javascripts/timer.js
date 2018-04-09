@@ -20,9 +20,8 @@ const setupTimer = (start) => { // eslint-disable-line no-unused-vars
 
   const updateHTML = () => {
     const values = timer.getTotalTimeValues();
-    const seconds = (values.minutes * 60) + values.seconds;
-    const now = seconds > max ? max : seconds;
-    const string = seconds > max ? maxString : values.toString();
+    const now = values.seconds > max ? max : values.seconds;
+    const string = values.seconds > max ? maxString : values.toString();
 
     const percentage = Math.round((now / max) * 100);
 
