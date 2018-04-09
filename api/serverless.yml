@@ -97,7 +97,7 @@ resources:
           Ref: "IoTThing"
     S3BucketEscapeboothproductionfaces:
       DependsOn:
-        - FaceDetectLambdaPermissionEscapeboothproductionfacesS3
+        - S3TriggerLambdaPermissionEscapeboothproductionfacesS3
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:service}-${self:custom.stage}-faces
@@ -120,14 +120,14 @@ resources:
             - Event: "s3:ObjectCreated:*"
               Function:
                 Fn::GetAtt:
-                  - FaceDetectLambdaFunction
+                  - S3TriggerLambdaFunction
                   - Arn
-    FaceDetectLambdaPermissionEscapeboothproductionfacesS3:
+    S3TriggerLambdaPermissionEscapeboothproductionfacesS3:
       Type: AWS::Lambda::Permission
       Properties:
         FunctionName:
           Fn::GetAtt:
-            - FaceDetectLambdaFunction
+            - S3TriggerLambdaFunction
             - Arn
         Principal: "s3.amazonaws.com"
         Action: "lambda:InvokeFunction"
