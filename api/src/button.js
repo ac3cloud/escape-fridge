@@ -1,10 +1,17 @@
+
+//  ____        _   _                 ____ _ _      _
+// | __ ) _   _| |_| |_ ___  _ __    / ___| (_) ___| | __
+// |  _ \| | | | __| __/ _ \| '_ \  | |   | | |/ __| |/ /
+// | |_) | |_| | |_| || (_) | | | | | |___| | | (__|   <
+// |____/ \__,_|\__|\__\___/|_| |_|  \____|_|_|\___|_|\_\
+
+// This file contains the Lambda function which should be executed when the IoT button is clicked
+
 const IotData = require('aws-sdk/clients/iotdata');
 
 const iot = new IotData({ endpoint: process.env.IOT_ENDPOINT });
 
 module.exports.click = (/* event , context, callback */) => {
-  // TODO do we care what is in the event?
-  // { serialNumber: 'G030JF059367J79T', batteryVoltage: '1780mV', clickType: 'SINGLE' }
   const payloadJSON = {
     cmd: 'take-photo',
   };

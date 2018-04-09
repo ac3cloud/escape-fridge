@@ -1,3 +1,11 @@
+//  ___    _____
+// |_ _|__|_   _|
+//  | |/ _ \| |
+//  | | (_) | |
+// |___\___/|_|
+
+// All the IoT connecting, subscribing and publishing on the express app happens here
+
 const path = require('path');
 const awsIot = require('aws-iot-device-sdk');
 

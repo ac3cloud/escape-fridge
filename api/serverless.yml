@@ -1,8 +1,5 @@
 service: escape-fridge
 
-plugins:
-  - serverless-webpack
-
 provider:
   name: aws
   runtime: nodejs6.10
@@ -35,13 +32,6 @@ provider:
         - "s3:GetObject"
       Resource:
         - "arn:aws:s3:::${self:service}-${self:custom.stage}-faces/*"
-
-custom:
-  stage: ${opt:stage, self:provider.stage}
-  region: ${opt:region, self:provider.region}
-  iotButtonDSN: 'G030JF059367J79T'
-  iotCertificateArn: 'arn:aws:iot:ap-southeast-2:750569066954:cert/9cbe48b0e208cf2e9f226240e5c8471c7526241f070e8dbba007d334601ac240'
-  thing_name: pi
 
 functions:
   buttonClick:
@@ -132,7 +122,6 @@ resources:
                 Fn::GetAtt:
                   - FaceDetectLambdaFunction
                   - Arn
-
     FaceDetectLambdaPermissionEscapeboothproductionfacesS3:
       Type: AWS::Lambda::Permission
       Properties:
@@ -145,3 +134,14 @@ resources:
         SourceAccount:
           Ref: AWS::AccountId
         SourceArn: "arn:aws:s3:::${self:service}-${self:custom.stage}-faces"
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  region: ${opt:region, self:provider.region}
+  iotButtonDSN: 'G030JF059367J79T'
+  iotCertificateArn: 'arn:aws:iot:ap-southeast-2:750569066954:cert/9cbe48b0e208cf2e9f226240e5c8471c7526241f070e8dbba007d334601ac240'
+  thing_name: pi
+
+plugins:
+  - serverless-webpack
+

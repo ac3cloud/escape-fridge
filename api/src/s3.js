@@ -1,3 +1,12 @@
+//  ____ _____   _____     _
+// / ___|___ /  |_   _| __(_) __ _  __ _  ___ _ __
+// \___ \ |_ \    | || '__| |/ _` |/ _` |/ _ \ '__|
+//  ___) |__) |   | || |  | | (_| | (_| |  __/ |
+// |____/____/    |_||_|  |_|\__, |\__, |\___|_|
+//                           |___/ |___/
+
+// This is the lambda function which should be run when the photo is uploaded to S3
+
 const IotData = require('aws-sdk/clients/iotdata');
 const Rekognition = require('aws-sdk/clients/rekognition');
 
@@ -6,7 +15,7 @@ const rekognition = new Rekognition();
 
 const SMILE_THRESHOLD = 60;
 
-const sendData = (data) => {
+const sendFaceData = (data) => {
   const payloadJSON = {
     cmd: 'face-data',
     data: data.FaceDetails[0],
@@ -71,7 +80,7 @@ const setFridge = (fridgeState) => {
   return iot.updateThingShadow(params).promise();
 };
 
-const checkThreshold = (data) => {
+const checkSmileThreshold = (data) => {
   const smile = data.FaceDetails[0].Smile;
 
   const isSmiling = smile.Value && smile.Confidence > SMILE_THRESHOLD;
@@ -88,6 +97,6 @@ module.exports.processImage = (event /* , context, callback */) => {
   const bucket = event.Records[0].s3.bucket.name;
 
   detectFace(bucket, key)
-    .then(data => sendData(data))
-    .then(data => checkThreshold(data));
+    .then(data => sendFaceData(data))
+    .then(data => checkSmileThreshold(data));
 };

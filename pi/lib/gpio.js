@@ -1,3 +1,11 @@
+//   ____ ____ ___ ___    _               _
+//  / ___|  _ \_ _/ _ \  | |    ___   ___| | __
+// | |  _| |_) | | | | | | |   / _ \ / __| |/ /
+// | |_| |  __/| | |_| | | |__| (_) | (__|   <
+//  \____|_|  |___\___/  |_____\___/ \___|_|\_\
+
+// The GPIO pins which unlock the fridge are controlled here
+
 const gpio = require('rpi-gpio');
 const os = require('os');
 
