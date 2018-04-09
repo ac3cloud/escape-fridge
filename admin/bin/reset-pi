@@ -32,6 +32,8 @@ yarn
 
 cd ~/escape-fridge
 
+killall -r 'vfs-worker|node|tmux'
+
 echo
 echo
 echo ' ____           _             _      ____ ___'
