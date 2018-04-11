@@ -5,7 +5,7 @@
   "license": "ISC",
   "private": true,
   "scripts": {
-    "deploy": "sls -s production deploy",
+    "deploy": "sls -s production deploy --force",
     "deploy-button": "sls -s production deploy function -f buttonClick",
     "deploy-face": "sls -s production deploy function -f s3Trigger",
     "simulate-click": "sls -s production invoke -f buttonClick -d \"{ serialNumber: 'G030JF059367J79T', batteryVoltage: '1780mV', clickType: 'SINGLE' }\"",
