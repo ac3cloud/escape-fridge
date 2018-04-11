@@ -16,6 +16,15 @@ router.get('/', (req, res /* , next */) => {
       leaderboard.forEach((entry) => {
         entry.diff = (entry.endTime ? entry.endTime : Date.now()) - entry.startTime;
         entry.time = moment.utc(entry.diff).format('mm:ss');
+        if (entry.startTime > 1523282400000) { // April 10
+          entry.day = 0;
+        }
+        if (entry.startTime > 1523368800000) { // April 11
+          entry.day = 1;
+        }
+        if (entry.startTime > 1523455200000) { // April 11
+          entry.day = 2;
+        }
       });
 
       leaderboard.sort((a, b) => a.diff - b.diff);
