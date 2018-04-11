@@ -135,7 +135,7 @@ module.exports.get = (event, context, callback) => {
 
   if (startat) {
     params.FilterExpression = 'startTime > :startTime';
-    params.ExpressionAttributeValues = { ':startTime': parseInt(startat) };
+    params.ExpressionAttributeValues = { ':startTime': parseInt(startat, 10) };
   }
 
   docClient.scan(params).promise()
