@@ -12,6 +12,7 @@ block content
         th(scope='col') Name
         th(scope='col') Company
         th(scope='col') Challenge
+        th(scope='col') Day
         th(scope='col') Time
       tbody
         each entry in leaderboard
@@ -20,6 +21,7 @@ block content
             td= entry.name
             td= entry.company
             td= entry.challengeId
+            td= entry.day
             td= entry.time
 
 block scripts
