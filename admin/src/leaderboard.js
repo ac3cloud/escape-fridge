@@ -117,9 +117,11 @@ module.exports.stop = (event, context, callback) => {
 
 module.exports.get = (event, context, callback) => {
   let email;
+  let startat;
 
   if (event.queryStringParameters) {
     ({ email } = event.queryStringParameters);
+    ({ startat } = event.queryStringParameters);
   }
 
   const params = {
@@ -129,6 +131,11 @@ module.exports.get = (event, context, callback) => {
   if (email) {
     params.FilterExpression = 'email = :email';
     params.ExpressionAttributeValues = { ':email': email };
+  }
+  // Dirty hack, if you supply both this will be a big pile of #WTF?
+  if (startat) {
+    params.FilterExpression = 'startTime > :startTime';
+    params.ExpressionAttributeValues = { ':startTime': parseInt(startat, 10) };
   }
 
   docClient.scan(params).promise()
