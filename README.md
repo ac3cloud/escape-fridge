@@ -32,9 +32,11 @@ Code is split up into a couple of directories
 # Pi Setup
 
 ## Install node
+You need to install a recent version of node as the one on Raspbian is quite old (at the time of writing)
+Also note that the Raspbian is still a 32bit OS and not 64bit (for newer raspberry pis)
+Make sure to get ARMv7 Linux binary from https://nodejs.org
 ```
-# Greg to fill in
-
+wget https://nodejs.org/dist/v9.11.1/node-v9.11.1-linux-armv7l.tar.xz
 echo export PATH=/home/pi/node-v9.9.0-linux-armv7l/bin:$PATH >> .bashrc
 ```
 
@@ -50,7 +52,7 @@ sudo apt-get install jq python-pip
 sudo pip install awscli
 ```
 
-## Fix camwera
+## Fix camera
 ```
 echo 'v4l2-ctl --set-fmt-video=width=1920,height=1080' | sudo tee -a /etc/rc.local
 ```
@@ -136,4 +138,11 @@ admin/bin/reset-pi
 * Reset the browser
 ```
 admin/bin/browser-tabs
+```
+
+# Development
+You can run the pi code inside a docker container, and this is useful for developing on platforms other than Linux.
+
+```
+docker run -it -p 3000:3000 -v ~/.aws:/root/.aws -v $(pwd):/app node:6.14 /bin/bash
 ```
