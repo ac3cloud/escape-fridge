@@ -29,14 +29,14 @@ block content
   canvas(id='canvas' class='d-none')
 
 block scripts
-  script(src='/javascripts/easytimer.min.js')
+  script(src='/javascripts/vendor/easytimer.min.js')
+  script(src='/javascripts/vendor/prism.js')
   script(src='/javascripts/timer.js')
   script(src='/javascripts/camera.js')
   script(src='/javascripts/countdown.js')
   script(src='/javascripts/ws.js')
   script(src='/javascripts/s3.js')
   script(src='/javascripts/result.js')
-  script(src='/javascripts/prism.js')
   script.
     const start = #{leaderboard.startTime};
     setupTimer(start);
