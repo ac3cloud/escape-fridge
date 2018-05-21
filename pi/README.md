@@ -2,7 +2,6 @@
 
 The bits that run on the raspberry pi
 
-
 ## Development
 
 Set up some environment variables
@@ -13,10 +12,10 @@ Set up some environment variables
 Add to _.env.production.local_:
 ```
 # .env.production.local
-API_URL=https://k9eigljayb.execute-api.ap-southeast-2.amazonaws.com/production
+API_URL=https://XXXX.execute-api.ap-southeast-2.amazonaws.com/production
 THING_NAME=pi-johnf
-IOT_HOST=a13wgavph3aq68.iot.us-east-1.amazonaws.com
-SERVICE=escape-booth
+IOT_HOST=XXXX.iot.us-east-1.amazonaws.com
+SERVICE=escape-fridge
 ```
 
 Start the app
