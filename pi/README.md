@@ -2,12 +2,14 @@
 
 The bits that run on the raspberry pi
 
-## Development
+# Development
+
+## Environment
 
 Set up some environment variables
 
-* Setup your environment based on output from API deployment TODO: Fix this to integrate more seamlessly
-* Set a unique thing name
+* API_URL comes from output of the deployment from admin directory
+* IOT_HOST comes fro AWS console
 
 Add to _.env.production.local_:
 ```
@@ -18,7 +20,13 @@ IOT_HOST=XXXX.iot.us-east-1.amazonaws.com
 SERVICE=escape-fridge
 ```
 
-Start the app
+## Set up IoT
+
+``` bash
+bin/setup-iot
+```
+
+## Start the app
 
 ```
 yarn
