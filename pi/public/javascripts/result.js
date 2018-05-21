@@ -10,6 +10,6 @@ const showResult = (isSmiling) => { // eslint-disable-line no-unused-vars
 
 const showFaceData = (data) => { // eslint-disable-line no-unused-vars
   $('#face-data pre code').html(JSON.stringify(data, null, 2));
-  Prism.highlightAll();
+  Prism.highlightAll(); // eslint-disable-line no-undef
   $('#face-data').show();
 };
