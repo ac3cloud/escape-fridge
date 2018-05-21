@@ -1,0 +1,5 @@
+{
+  "iotEndpoint": "a2lpXXXXXXXXX.iot.ap-southeast-2.amazonaws.com",
+  "iotButtonDSN": "G030XXXXXXXXX",
+  "iotCertificateArn": "arn:aws:iot:ap-southeast-2:XXXXXXX:cert/ZZZZZ"
+}

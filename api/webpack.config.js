@@ -17,6 +17,7 @@ module.exports = {
         loaders: ['eslint-loader'],
         exclude: /node_modules/,
       },
+      // We disable transpiling to make functions easier to read in Lambda Console
       // {
       //   test: /\.js$/,
       //   loaders: ['babel-loader'],

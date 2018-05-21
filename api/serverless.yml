@@ -8,7 +8,7 @@ provider:
   variableSyntax: "\\${((?!(AWS|iot))[ ~:a-zA-Z0-9._'\",\\-\\/\\(\\)]+?)}"
   environment:
     ENVIRONMENT: ${opt:stage, self:provider.stage}
-    IOT_ENDPOINT: "a2lpba7qk5u1yv.iot.ap-southeast-2.amazonaws.com"
+    IOT_ENDPOINT: ${file(etc/config.json):iotEndpoint}
     THING_NAME: ${self:custom.thing_name}
     SERVICE: ${self:service}
   iamRoleStatements:
@@ -138,8 +138,8 @@ resources:
 custom:
   stage: ${opt:stage, self:provider.stage}
   region: ${opt:region, self:provider.region}
-  iotButtonDSN: 'G030JF059367J79T'
-  iotCertificateArn: 'arn:aws:iot:ap-southeast-2:750569066954:cert/9cbe48b0e208cf2e9f226240e5c8471c7526241f070e8dbba007d334601ac240'
+  iotButtonDSN: ${file(etc/config.json):iotButtonDSN}
+  iotCertificateArn: ${file(etc/config.json):iotCertificateArn}
   thing_name: pi
 
 plugins:
